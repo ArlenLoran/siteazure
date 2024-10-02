@@ -18,14 +18,18 @@ if ($conn->connect_error) {
 }
 
 $nome = $_POST['nome'] ?? null;
+$senha = $_POST['senha'] ?? null;
 
-if (empty($nome)) {
-    echo json_encode(["status" => "error", "message" => "Nome não pode ser vazio."]);
+if (empty($nome) || empty($senha)) {
+    echo json_encode(["status" => "error", "message" => "Nome e senha não podem ser vazios."]);
     exit();
 }
 
-$stmt = $conn->prepare("INSERT INTO usuarios (nome) VALUES (?)");
-$stmt->bind_param("s", $nome);
+// Criptografar a senha antes de armazená-la
+$senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO usuarios (nome, senha) VALUES (?, ?)");
+$stmt->bind_param("ss", $nome, $senha_hash);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Usuário cadastrado com sucesso!"]);
