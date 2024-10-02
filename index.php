@@ -24,6 +24,7 @@
                     type: 'POST',
                     url: 'processa.php',
                     data: $(this).serialize(),
+                    dataType: 'json', // Espera uma resposta em JSON
                     success: function(response) {
                         if (response.status === "success") {
                             alert(response.message); // Alerta de sucesso
