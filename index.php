@@ -12,6 +12,10 @@
     <form id="cadastroForm">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
+        <br>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+        <br>
         <button type="submit">Cadastrar</button>
     </form>
 
