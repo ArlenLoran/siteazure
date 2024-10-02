@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Conexão com o banco de dados
     $con = mysqli_init();
-    mysqli_ssl_set($con, NULL, NULL, "{path to CA cert}", NULL, NULL);
+    mysqli_ssl_set($con, NULL, NULL, "DigiCertGlobalRootG2.crt.pem", NULL, NULL);
     $conn = mysqli_real_connect($con, "arlendbteste.mysql.database.azure.com", "arlendbteste", "3KT8zx203@Brasil", "tabela1", 3306, MYSQLI_CLIENT_SSL);
 
     if (!$conn) {
