@@ -28,7 +28,14 @@ if (empty($nome) || empty($senha)) {
 // Criptografar a senha antes de armazená-la
 $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
+// Debug: Verificar valores
+var_dump($nome, $senha_hash); // Adicione esta linha para ver o que está sendo enviado
 $stmt = $conn->prepare("INSERT INTO usuarios (nome, senha) VALUES (?, ?)");
+if ($stmt === false) {
+    echo json_encode(["status" => "error", "message" => "Erro na preparação da declaração: " . $conn->error]);
+    exit();
+}
+
 $stmt->bind_param("ss", $nome, $senha_hash);
 
 if ($stmt->execute()) {
