@@ -1,5 +1,8 @@
 <!-- processa.php -->
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header('Content-Type: application/json');
 
 $servername = "arlendbteste.mysql.database.azure.com"; 
@@ -14,10 +17,15 @@ if ($conn->connect_error) {
     exit();
 }
 
+$nome = $_POST['nome'] ?? null;
+
+if (empty($nome)) {
+    echo json_encode(["status" => "error", "message" => "Nome não pode ser vazio."]);
+    exit();
+}
+
 $stmt = $conn->prepare("INSERT INTO usuarios (nome) VALUES (?)");
 $stmt->bind_param("s", $nome);
-
-$nome = $_POST['nome'];
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success", "message" => "Usuário cadastrado com sucesso!"]);
