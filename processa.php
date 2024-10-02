@@ -27,9 +27,9 @@ if (mysqli_num_rows($result) > 0) {
     // Loop através dos resultados e exibe cada usuário
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['nome']) . "</td>";
-        echo "<td>" . htmlspecialchars($row['senha']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['ID']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Nome']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Senha']) . "</td>";
         echo "</tr>";
     }
 
