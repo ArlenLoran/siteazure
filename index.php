@@ -6,7 +6,7 @@
     <title>Formulário de Cadastro</title>
 </head>
 <body>
-    <h1>Cadastro de Usuário</h1>
+    <h1>Cadastro de Usuárioaaa</h1>
     <form action="processa.php" method="post">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
