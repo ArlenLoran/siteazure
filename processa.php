@@ -1,50 +1,28 @@
+<!-- processa.php -->
 <?php
-// Configurações de conexão
-$db_config = [
-    'user' => 'arlendbteste',
-    'password' => '3KT8zx203@Brasil',
-    'host' => 'arlendbteste.mysql.database.azure.com',
-    'port' => 3306,
-    'database' => 'tabela1',
-    'ssl_ca' => 'DigiCertGlobalRootG2.crt.pem' // Caminho para o certificado CA
-];
+$servername = "arlendbteste.mysql.database.azure.com"; // ou o seu servidor
+$username = "arlendbteste"; // seu usuário do MySQL
+$password = "3KT8zx203@Brasil"; // sua senha do MySQL
+$dbname = "tabela1"; // nome do seu banco de dados
 
-// Inicializa a conexão
-$con = mysqli_init();
-if (!$con) {
-    die("Falha ao inicializar a conexão: " . mysqli_connect_error());
+// Cria conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
 }
 
-// Configura SSL
-mysqli_ssl_set($con, NULL, NULL, $db_config['ssl_ca'], NULL, NULL);
+// Prepara e vincula
+$stmt = $conn->prepare("INSERT INTO usuarios (nome) VALUES (?)");
+$stmt->bind_param("s", $nome);
 
-// Conecta ao banco de dados
-if (!mysqli_real_connect($con, $db_config['host'], $db_config['user'], $db_config['password'], $db_config['database'], $db_config['port'], NULL, MYSQLI_CLIENT_SSL)) {
-    die("Erro de conexão: " . mysqli_connect_error());
-}
+// Define o valor da variável e executa
+$nome = $_POST['nome'];
+$stmt->execute();
 
-try {
-    // Consultando todos os usuários
-    $select_users_query = "SELECT * FROM usuarios";
-    $result = mysqli_query($con, $select_users_query);
+echo "Usuário cadastrado com sucesso!";
 
-    // Verifica se a consulta retornou resultados
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            echo "Usuários cadastrados:<br>";
-            while ($usuario = mysqli_fetch_assoc($result)) {
-                echo "ID: " . htmlspecialchars($usuario['id']) . ", Nome: " . htmlspecialchars($usuario['nome']) . ", Senha: " . htmlspecialchars($usuario['senha']) . "<br>";
-            }
-        } else {
-            echo "Nenhum usuário encontrado.";
-        }
-    } else {
-        throw new Exception("Erro na consulta: " . mysqli_error($con));
-    }
-} catch (Exception $e) {
-    echo "Erro: " . $e->getMessage();
-} finally {
-    // Fechando a conexão
-    mysqli_close($con);
-}
+$stmt->close();
+$conn->close();
 ?>
