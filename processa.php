@@ -5,19 +5,26 @@ ini_set('display_errors', 1);
 
 header('Content-Type: application/json');
 
+// Informações de conexão
 $servername = "arlendbteste.mysql.database.azure.com"; 
 $username = "arlendbteste"; 
 $password = "3KT8zx203@Brasil"; 
 $dbname = "tabela1"; 
+$ca = 'DigiCertGlobalRootG2.crt.pem'; // Atualize para o caminho do seu certificado CA
 
-// Caminho para o arquivo CA
-$ca = 'DigiCertGlobalRootG2.crt.pem'; // Atualize este caminho
+// Inicializa a conexão
+$con = mysqli_init();
 
-// Cria conexão com SSL
-$conn = new mysqli($servername, $username, $password, $dbname, 3306, null, MYSQLI_CLIENT_SSL, $ca);
+if (!$con) {
+    die("Falha ao inicializar: " . mysqli_connect_error());
+}
 
-if ($conn->connect_error) {
-    echo json_encode(["status" => "error", "message" => "Conexão falhou: " . $conn->connect_error]);
+// Configura SSL
+mysqli_ssl_set($con, NULL, NULL, $ca, NULL, NULL);
+
+// Tenta conectar
+if (!mysqli_real_connect($con, $servername, $username, $password, $dbname, 3306, NULL, MYSQLI_CLIENT_SSL)) {
+    echo json_encode(["status" => "error", "message" => "Conexão falhou: " . mysqli_connect_error()]);
     exit();
 }
 
@@ -32,7 +39,7 @@ if (empty($nome) || empty($senha)) {
 
 $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-$stmt = $conn->prepare("INSERT INTO colaborador (nome, senha) VALUES (?, ?)");
+$stmt = $con->prepare("INSERT INTO colaborador (nome, senha) VALUES (?, ?)");
 $stmt->bind_param("ss", $nome, $senha_hash);
 
 if ($stmt->execute()) {
@@ -42,5 +49,5 @@ if ($stmt->execute()) {
 }
 
 $stmt->close();
-$conn->close();
+$con->close();
 ?>
