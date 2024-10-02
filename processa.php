@@ -11,7 +11,7 @@ $password = "3KT8zx203@Brasil";
 $dbname = "tabela1"; 
 
 // Caminho para o arquivo CA
-$ca = 'DigiCertGlobalRootG2.crt'; // Atualize este caminho
+$ca = 'DigiCertGlobalRootG2.crt.pem'; // Atualize este caminho
 
 // Cria conexão com SSL
 $conn = new mysqli($servername, $username, $password, $dbname, 3306, null, MYSQLI_CLIENT_SSL, $ca);
