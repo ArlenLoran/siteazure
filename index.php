@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuárioss</title>
+    <title>Cadastro de Usuários</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -14,7 +14,6 @@
         <input type="text" id="nome" name="nome" required>
         <button type="submit">Cadastrar</button>
     </form>
-    <div id="resultado"></div>
 
     <script>
         $(document).ready(function() {
@@ -26,11 +25,15 @@
                     url: 'processa.php',
                     data: $(this).serialize(),
                     success: function(response) {
-                        $('#resultado').html(response);
-                        $('#cadastroForm')[0].reset(); // Limpa o formulário após o envio
+                        if (response.status === "success") {
+                            alert(response.message); // Alerta de sucesso
+                            $('#cadastroForm')[0].reset(); // Limpa o formulário após o envio
+                        } else {
+                            alert("Erro: " + response.message); // Alerta de erro
+                        }
                     },
                     error: function() {
-                        $('#resultado').html('Ocorreu um erro ao cadastrar o usuário.');
+                        alert('Ocorreu um erro ao cadastrar o usuário.'); // Erro de comunicação
                     }
                 });
             });
