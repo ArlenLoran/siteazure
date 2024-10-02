@@ -1,10 +1,16 @@
 <?php
-// Conexão com o banco de dados
-$con = mysqli_init();
-mysqli_ssl_set($con, NULL, NULL, "DigiCertGlobalRootG2.crt.pem", NULL, NULL);
+// Configurações
+$db_host = "arlendbteste.mysql.database.azure.com";
+$db_user = "arlendbteste";
+$db_password = "3KT8zx203@Brasil"; // Substitua pela sua senha
+$db_name = "tabela1";
 
-// Tente conectar ao banco de dados
-if (!mysqli_real_connect($con, "arlendbteste.mysql.database.azure.com", "arlendbteste", "3KT8zx203@Brasil", "tabela1", 3306, NULL, MYSQLI_CLIENT_SSL)) {
+// Inicializa a conexão
+$con = mysqli_init();
+mysqli_ssl_set($con, NULL, NULL, "DigiCertGlobalRootG2.crt.pem", NULL, NULL); // Substitua pelo caminho correto para o certificado
+
+// Conecta ao banco de dados
+if (!mysqli_real_connect($con, $db_host, $db_user, $db_password, $db_name, 3306, NULL, MYSQLI_CLIENT_SSL)) {
     die("Erro de conexão: " . mysqli_connect_error());
 }
 
