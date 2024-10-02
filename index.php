@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Cadastro de Usuários</h1>
+    <h1>Cadastro</h1>
     <form id="cadastroForm">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
