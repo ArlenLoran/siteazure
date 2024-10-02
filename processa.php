@@ -10,7 +10,7 @@ $servername = "arlendbteste.mysql.database.azure.com";
 $username = "arlendbteste"; 
 $password = "3KT8zx203@Brasil"; 
 $dbname = "tabela1"; 
-$ca = 'DigiCertGlobalRootG2.crt'; // Atualize para o caminho do seu certificado CA
+$ca = 'DigiCertGlobalRootCA.crt'; // Atualize para o caminho do seu certificado CA
 
 // Inicializa a conexão
 $con = mysqli_init();
