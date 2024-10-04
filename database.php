@@ -6,12 +6,12 @@ require 'config.php';
 $con = mysqli_init();
 
 // Configura o certificado SSL
-$caCertPath = $config['ca_cert_path']; // Caminho para o seu certificado CA
+$caCertPath = 'DigiCertGlobalRootCA.crt.pem'; // Caminho para o seu certificado CA
 mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
 
 // Realiza a conexão
 $host = 'arlendbteste.mysql.database.azure.com';
-$username = $config['db_username'];
+$username = 'arlendbteste';
 $password = '3KT8zx203@Brasil'; // Substitua pelo seu password
 $database = 'tabela1'; // Substitua pelo seu nome do banco de dados
 
