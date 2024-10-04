@@ -1,36 +1,25 @@
-<?php
-// Inicializa a conexão
-$con = mysqli_init();
-
-// Configura o certificado SSL
-$caCertPath = 'DigiCertGlobalRootCA.crt.pem'; // Caminho para o seu certificado CA
-mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
-
-// Realiza a conexão
-$host = 'arlendbteste.mysql.database.azure.com';
-$username = 'arlendbteste';
-$password = '3KT8zx203@Brasil'; // Substitua pelo seu password
-$database = 'tabela1'; // Substitua pelo seu nome do banco de dados
-
-if (mysqli_real_connect($con, $host, $username, $password, $database, 3306, NULL, MYSQLI_CLIENT_SSL)) {
-    echo "Conexão bem-sucedida ao banco de dados!";
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuários</title>
+</head>
+<body>
+    <h1>Cadastro de Usuários</h1>
+    <form action="cadastrar.php" method="post">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <input type="submit" value="Cadastrar">
+    </form>
     
-    // Aqui você pode realizar suas operações com o banco de dados
-    // Exemplo de uma consulta
-    $query = "SELECT * FROM usuarios";
-    $result = mysqli_query($con, $query);
-
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            print_r($row);
-        }
-    } else {
-        echo "Erro na consulta: " . mysqli_error($con);
-    }
-
-    // Fecha a conexão
-    mysqli_close($con);
-} else {
-    echo "Erro na conexão: " . mysqli_connect_error();
-}
-?>
+    <h2>Listar Usuários</h2>
+    <form action="listar.php" method="get">
+        <input type="submit" value="Listar Todos os Usuários">
+    </form>
+</body>
+</html>
