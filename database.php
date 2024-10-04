@@ -10,7 +10,6 @@ require 'config.php';
  */
 function createPdoConnection(array $config): PDO
 {
-    // Configurações de opções para PDO com SSL
     $options = [
         PDO::MYSQL_ATTR_SSL_CA => $config['ca_cert_path'], // Caminho para o certificado CA
     ];
@@ -32,15 +31,14 @@ function createPdoConnection(array $config): PDO
  */
 function createMysqliConnection(array $config): mysqli
 {
-    $mysqli = new mysqli($config['db_host'], $config['db_username'], $config['db_password'], $config['db_database']);
+    $mysqli = mysqli_init();
+    mysqli_ssl_set($mysqli, NULL, NULL, $config['ca_cert_path'], NULL, NULL);
 
-    // Configura SSL para MySQLi
-    $mysqli->ssl_set(NULL, NULL, $config['ca_cert_path'], NULL, NULL);
-    
-    if ($mysqli->connect_error) {
-        error_log("MySQLi connection failed: " . $mysqli->connect_error, 3, __DIR__ . '/errors.log');
+    if (!mysqli_real_connect($mysqli, $config['db_host'], $config['db_username'], $config['db_password'], $config['db_database'], 3306, NULL, MYSQLI_CLIENT_SSL)) {
+        error_log("MySQLi connection failed: " . mysqli_connect_error(), 3, __DIR__ . '/errors.log');
         die("An error occurred while connecting to the database.");
     }
+
     return $mysqli;
 }
 
@@ -52,7 +50,22 @@ try {
     die("An error occurred while connecting to the database.");
 }
 
-// Optionally, create a mysqli connection for legacy code or other use cases
+// Cria uma conexão MySQLi
 $conexao = createMysqliConnection($config);
+
+// Exemplo de consulta usando MySQLi
+$query = "SELECT * FROM usuarios"; // Ajuste aqui para a tabela desejada
+$result = mysqli_query($conexao, $query);
+
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        print_r($row); // Mostra os dados da tabela
+    }
+} else {
+    echo "Erro na consulta: " . mysqli_error($conexao);
+}
+
+// Fecha a conexão MySQLi
+mysqli_close($conexao);
 
 // Você pode usar $pdo e $conexao em outros arquivos conforme necessário
