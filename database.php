@@ -11,7 +11,7 @@ mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
 
 // Realiza a conexão
 $host = 'arlendbteste.mysql.database.azure.com';
-$username = 'arlendbteste';
+$username = $config['db_username'];
 $password = '3KT8zx203@Brasil'; // Substitua pelo seu password
 $database = 'tabela1'; // Substitua pelo seu nome do banco de dados
 
