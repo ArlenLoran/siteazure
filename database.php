@@ -6,10 +6,38 @@ require 'vendor/autoload.php';
 // Inclui o arquivo de configuração
 $config = require 'config.php';
 
-// Imprime as variáveis de configuração
-echo "Configurações do Banco de Dados:\n";
-echo "Host: " . $config['db_host'] . "\n";
-echo "Usuário: " . $config['db_username'] . "\n";
-echo "Senha: " . $config['db_password'] . "\n";
-echo "Banco de Dados: " . $config['db_database'] . "\n";
-echo "Caminho do Certificado CA: " . $config['ca_cert_path'] . "\n";
+// Inicializa a conexão
+$con = mysqli_init();
+
+// Configura o certificado SSL
+$caCertPath = $config['ca_cert_path']; // Caminho para o seu certificado CA
+mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
+
+// Realiza a conexão
+$host = $config['db_host'];
+$username = $config['db_username'];
+$password = $config['db_password'];
+$database = $config['db_database'];
+
+if (mysqli_real_connect($con, $host, $username, $password, $database, 3306, NULL, MYSQLI_CLIENT_SSL)) {
+    echo "Conexão bem-sucedida ao banco de dados!\n";
+    
+    // Aqui você pode realizar suas operações com o banco de dados
+    // Exemplo de uma consulta
+    $query = "SELECT * FROM usuarios";
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            print_r($row);
+        }
+    } else {
+        echo "Erro na consulta: " . mysqli_error($con);
+    }
+
+    // Fecha a conexão
+    mysqli_close($con);
+} else {
+    echo "Erro na conexão: " . mysqli_connect_error();
+}
+?>
