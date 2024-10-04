@@ -30,8 +30,8 @@
                     success: function(response) {
                         alert(response); // Exibe a resposta do PHP
                     },
-                    error: function() {
-                        alert('Erro ao cadastrar usuário. Tente novamente.');
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('Erro ao cadastrar usuário: ' + errorThrown);
                     }
                 });
             });
