@@ -14,10 +14,10 @@ $caCertPath = 'DigiCertGlobalRootCA.crt.pem'; // Caminho para o seu certificado 
 mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
 
 // Realiza a conexão
-$host = 'arlendbteste.mysql.database.azure.com';
-$username = $config['db_username'];
-$password = '3KT8zx203@Brasil1'; // Substitua pelo seu password
-$database = 'tabela1'; // Substitua pelo seu nome do banco de dados
+$host = $config['db_host'];         // Endereço do servidor MySQL
+$username = $config['db_username']; // Nome de usuário do banco de dados
+$password = $config['db_password']; // Senha do banco de dados
+$database = $config['db_database']; // Nome do banco de dados
 
 if (mysqli_real_connect($con, $host, $username, $password, $database, 3306, NULL, MYSQLI_CLIENT_SSL)) {
     echo "Conexão bem-sucedida ao banco de dados!";
