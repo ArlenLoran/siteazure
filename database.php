@@ -6,54 +6,38 @@ require 'vendor/autoload.php';
 // Inclui o arquivo de configuração
 $config = require 'config.php';
 
-// Função para estabelecer a conexão com o banco de dados
-function createConnection($config) {
-    $con = mysqli_init();
-    
-    // Configura o certificado SSL
-    if (!mysqli_ssl_set($con, NULL, NULL, $config['ca_cert_path'], NULL, NULL)) {
-        throw new Exception("Erro ao configurar SSL: " . mysqli_error($con));
-    }
-    
-    // Tenta conectar ao banco de dados
-    if (mysqli_real_connect($con, $config['db_host'], $config['db_username'], $config['db_password'], $config['db_database'], 3306, NULL, MYSQLI_CLIENT_SSL)) {
-        return $con;
-    } else {
-        throw new Exception("Erro na conexão: " . mysqli_connect_error());
-    }
-}
+// Inicializa a conexão
+$con = mysqli_init();
 
-// Função para executar uma consulta e retornar os resultados
-function executeQuery($con, $query) {
-    $result = mysqli_query($con, $query);
-    
-    if ($result === false) {
-        throw new Exception("Erro na consulta: " . mysqli_error($con));
-    }
-    
-    return $result;
-}
+// Configura o certificado SSL
+$caCertPath = $config['ca_cert_path']; // Caminho para o seu certificado CA
+mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
 
-try {
-    // Estabelece a conexão
-    $connection = createConnection($config);
+// Realiza a conexão
+$host = $config['db_host'];         // Endereço do servidor MySQL
+$username = $config['db_username']; // Nome de usuário do banco de dados
+$password = $config['db_password']; // Senha do banco de dados
+$database = $config['db_database']; // Nome do banco de dados
+
+if (mysqli_real_connect($con, $host, $username, $password, $database, 3306, NULL, MYSQLI_CLIENT_SSL)) {
     echo "Conexão bem-sucedida ao banco de dados!\n";
     
+    // Aqui você pode realizar suas operações com o banco de dados
     // Exemplo de uma consulta
     $query = "SELECT * FROM usuarios";
-    $result = executeQuery($connection, $query);
-    
-    // Processa os resultados
-    while ($row = mysqli_fetch_assoc($result)) {
-        print_r($row);
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            print_r($row);
+        }
+    } else {
+        echo "Erro na consulta: " . mysqli_error($con);
     }
-    
-} catch (Exception $e) {
-    echo $e->getMessage();
-} finally {
-    // Fecha a conexão, se estiver aberta
-    if (isset($connection) && $connection) {
-        mysqli_close($connection);
-    }
+
+    // Fecha a conexão
+    mysqli_close($con);
+} else {
+    echo "Erro na conexão: " . mysqli_connect_error();
 }
 ?>
