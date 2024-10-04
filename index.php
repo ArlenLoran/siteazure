@@ -17,9 +17,26 @@
         
         <input type="submit" value="Cadastrar">
     </form>
+    
+    <button id="listUsers">Listar Usuários</button>
+    
+    <h2>Usuários Cadastrados</h2>
+    <table id="usersTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os dados dos usuários serão inseridos aqui -->
+        </tbody>
+    </table>
 
     <script>
         $(document).ready(function() {
+            // Função para cadastrar usuário
             $('#userForm').on('submit', function(event) {
                 event.preventDefault(); // Impede o envio normal do formulário
 
@@ -32,6 +49,20 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert('Erro ao cadastrar usuário: ' + errorThrown);
+                    }
+                });
+            });
+
+            // Função para listar usuários
+            $('#listUsers').on('click', function() {
+                $.ajax({
+                    url: 'list.php', // O arquivo que processa a listagem
+                    type: 'GET',
+                    success: function(response) {
+                        $('#usersTable tbody').html(response); // Insere os dados na tabela
+                    },
+                    error: function() {
+                        alert('Erro ao listar usuários. Tente novamente.');
                     }
                 });
             });
