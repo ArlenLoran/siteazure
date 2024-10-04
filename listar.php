@@ -17,7 +17,6 @@ if (mysqli_real_connect($con, $host, $username, $password, $database, 3306, NULL
     $result = mysqli_query($con, $query);
 
     if ($result) {
-        echo "<h1>Usuários Cadastrados</h1>";
         while ($row = mysqli_fetch_assoc($result)) {
             echo "Nome: " . htmlspecialchars($row['nome']) . " - Email: " . htmlspecialchars($row['email']) . "<br>";
         }
