@@ -24,9 +24,8 @@
 
     <script>
         $(document).ready(function() {
-            // Enviar dados do formulário via AJAX
             $('#cadastroForm').on('submit', function(event) {
-                event.preventDefault(); // Impede o envio normal do formulário
+                event.preventDefault();
                 
                 $.ajax({
                     type: 'POST',
@@ -34,7 +33,7 @@
                     data: $(this).serialize(),
                     success: function(response) {
                         alert(response);
-                        listarUsuarios(); // Atualiza a lista após o cadastro
+                        listarUsuarios();
                     },
                     error: function() {
                         alert('Erro ao cadastrar usuário.');
@@ -42,7 +41,6 @@
                 });
             });
 
-            // Listar usuários
             $('#listarBtn').on('click', function() {
                 listarUsuarios();
             });
