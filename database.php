@@ -11,7 +11,9 @@ function createConnection($config) {
     $con = mysqli_init();
     
     // Configura o certificado SSL
-    mysqli_ssl_set($con, NULL, NULL, $config['ca_cert_path'], NULL, NULL);
+    if (!mysqli_ssl_set($con, NULL, NULL, $config['ca_cert_path'], NULL, NULL)) {
+        throw new Exception("Erro ao configurar SSL: " . mysqli_error($con));
+    }
     
     // Tenta conectar ao banco de dados
     if (mysqli_real_connect($con, $config['db_host'], $config['db_username'], $config['db_password'], $config['db_database'], 3306, NULL, MYSQLI_CLIENT_SSL)) {
