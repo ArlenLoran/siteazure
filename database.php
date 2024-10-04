@@ -6,7 +6,7 @@ require 'config.php';
 $con = mysqli_init();
 
 // Configura o certificado SSL
-$caCertPath = 'DigiCertGlobalRootCA.crt.pem'; // Caminho para o seu certificado CA
+$caCertPath = $config['ca_cert_path']; // Caminho para o seu certificado CA
 mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
 
 // Realiza a conexão
