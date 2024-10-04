@@ -6,19 +6,26 @@ require 'config.php';
 $con = mysqli_init();
 
 // Configura o certificado SSL
-mysqli_ssl_set($con, NULL, NULL, $config['ca_cert_path'], NULL, NULL);
+$caCertPath = 'DigiCertGlobalRootCA.crt.pem'; // Caminho para o seu certificado CA
+mysqli_ssl_set($con, NULL, NULL, $caCertPath, NULL, NULL);
 
 // Realiza a conexão
-if (mysqli_real_connect($con, $config['db_host'], $config['db_username'], $config['db_password'], $config['db_database'], 3306, NULL, MYSQLI_CLIENT_SSL)) {
-    echo "Conexão bem-sucedida ao banco de dados!<br>";
+$host = 'arlendbteste.mysql.database.azure.com';
+$username = 'arlendbteste';
+$password = '3KT8zx203@Brasil'; // Substitua pelo seu password
+$database = 'tabela1'; // Substitua pelo seu nome do banco de dados
+
+if (mysqli_real_connect($con, $host, $username, $password, $database, 3306, NULL, MYSQLI_CLIENT_SSL)) {
+    echo "Conexão bem-sucedida ao banco de dados!";
     
+    // Aqui você pode realizar suas operações com o banco de dados
     // Exemplo de uma consulta
-    $query = "SELECT * FROM usuarios"; // Ajuste aqui para a tabela desejada
+    $query = "SELECT * FROM usuarios";
     $result = mysqli_query($con, $query);
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-            print_r($row); // Mostra os dados da tabela
+            print_r($row);
         }
     } else {
         echo "Erro na consulta: " . mysqli_error($con);
