@@ -3,56 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisar Nota</title>
+    <title>Consulta de Invoice</title>
+    <script>
+        async function consultar() {
+            const invoice = document.getElementById('invoice').value;
+            const response = await fetch('consulta.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ invoice: invoice })
+            });
+            const data = await response.json();
+            if (data && data.tractorNum) {
+                document.getElementById('tractorNum').value = data.tractorNum;
+            } else {
+                alert('Placa não encontrada ou erro na consulta.');
+            }
+        }
+    </script>
 </head>
 <body>
+    <h1>Consulta de Invoice</h1>
+    <label for="invoice">Número da Invoice:</label>
+    <input type="text" id="invoice" required>
+    <button onclick="consultar()">Consultar</button>
 
-    <h1>Pesquisar Nota</h1>
-    <form id="searchForm" method="POST">
-        <input type="text" name="invoice_number" placeholder="Digite o número da nota" required>
-        <button type="submit">Pesquisar</button>
-    </form>
+    <br><br>
 
-    <div id="result">
-        <!-- Input para a placa do veículo aparecerá aqui -->
-        <input type="text" id="tractorNum" placeholder="Placa do veículo" readonly>
-    </div>
-
-    <script>
-        // Captura o envio do formulário
-        document.getElementById('searchForm').onsubmit = function(event) {
-            event.preventDefault(); // Impede o envio padrão do formulário
-
-            const formData = new FormData(this);
-
-            // Faz a requisição usando fetch
-            fetch('process.php', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                const tractorNumInput = document.getElementById('tractorNum');
-
-                if (data.error) {
-                    // Se houver erro, mostre uma mensagem
-                    tractorNumInput.value = ''; // Limpa o campo
-                    alert(data.error);
-                    return;
-                }
-
-                // Preenche o input com a placa do veículo
-                if (data.TR?.TRACTOR_NUM) {
-                    tractorNumInput.value = data.TR.TRACTOR_NUM;
-                } else {
-                    tractorNumInput.value = ''; // Limpa o campo se não encontrar
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-            });
-        };
-    </script>
-
+    <label for="tractorNum">Placa do Trator:</label>
+    <input type="text" id="tractorNum" readonly>
 </body>
 </html>
