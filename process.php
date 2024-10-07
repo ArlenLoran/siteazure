@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = array(
         'myQuery' => ["WITH nota_carreta AS (
             SELECT
-            TRLR_ID,
-            LISTAGG(NOTTXT, '\n') WITHIN GROUP (ORDER BY NOTLIN) NOTTXT
+                TRLR_ID,
+                LISTAGG(NOTTXT, '\n') WITHIN GROUP (ORDER BY NOTLIN) NOTTXT
             FROM TRLR_NOTE
             GROUP BY TRLR_ID
         )
@@ -26,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             TR.TRACTOR_NUM,
             TR.TRLR_SEAL1,
             TR.TRLR_SEAL2,
-            TR.TRLR_SEAL3
+            TR.TRLR_SEAL3,
+            SUM(rcl.rcvqty) OVER (PARTITION BY rcl.invnum, rcl.prtnum) AS total
         FROM
             rcvinv rci
             LEFT JOIN RCVtrk rct ON rci.TRKNUM = rct.TRKNUM
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'Content-Type: application/json'
     );
 
+    // Configurar o contexto HTTP com a requisição POST
     $options = array(
         'http' => array(
             'header'  => $headers,
@@ -60,27 +62,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     $context = stream_context_create($options);
+
+    // Fazer a requisição HTTP
     $response = file_get_contents($url, false, $context);
 
     if ($response === FALSE) {
         echo json_encode(['error' => 'Erro na requisição']);
     } else {
-        // Tente fazer o parsing da resposta JSON
+        // Exibir a resposta
         $responseData = json_decode($response, true);
 
         if (is_array($responseData) && !empty($responseData)) {
-            // Supondo que a resposta contém um array de resultados
+            // Encontrar a placa do veículo
             $tractorNum = null;
-
-            // Percorre os resultados para encontrar a placa
             foreach ($responseData as $item) {
                 if (isset($item['TRACTOR_NUM'])) {
                     $tractorNum = $item['TRACTOR_NUM'];
-                    break; // Encontre a primeira ocorrência e pare
+                    break; // Para de procurar na primeira ocorrência
                 }
             }
 
-            echo json_encode(['TR' => ['TRACTOR_NUM' => $tractorNum]]);
+            echo json_encode(['TRACTOR_NUM' => $tractorNum, 'data' => $responseData]); // Retorna a placa e os dados
         } else {
             echo json_encode(['error' => 'Resposta vazia ou inválida']);
         }
