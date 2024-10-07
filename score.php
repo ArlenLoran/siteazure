@@ -8,13 +8,14 @@
 <body>
 
     <h1>Pesquisar Nota</h1>
-    <form id="searchForm" method="POST" action="process.php">
+    <form id="searchForm" method="POST">
         <input type="text" name="invoice_number" placeholder="Digite o número da nota" required>
         <button type="submit">Pesquisar</button>
     </form>
 
     <div id="result">
-        <!-- Os inputs dos resultados aparecerão aqui -->
+        <!-- Input para a placa do veículo aparecerá aqui -->
+        <input type="text" id="tractorNum" placeholder="Placa do veículo" readonly>
     </div>
 
     <script>
@@ -31,18 +32,20 @@
             })
             .then(response => response.json())
             .then(data => {
-                const resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = ''; // Limpa resultados anteriores
+                const tractorNumInput = document.getElementById('tractorNum');
 
-                // Cria inputs para cada coluna retornada
-                for (const [key, value] of Object.entries(data)) {
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.name = key;
-                    input.placeholder = key;
-                    input.value = value;
-                    resultDiv.appendChild(input);
-                    resultDiv.appendChild(document.createElement('br'));
+                if (data.error) {
+                    // Se houver erro, mostre uma mensagem
+                    tractorNumInput.value = ''; // Limpa o campo
+                    alert(data.error);
+                    return;
+                }
+
+                // Preenche o input com a placa do veículo
+                if (data.TR?.TRACTOR_NUM) {
+                    tractorNumInput.value = data.TR.TRACTOR_NUM;
+                } else {
+                    tractorNumInput.value = ''; // Limpa o campo se não encontrar
                 }
             })
             .catch(error => {
