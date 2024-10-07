@@ -7,11 +7,9 @@ $data = array(
     TRLR_ID,
     LISTAGG( NOTTXT, '
     '  ) WITHIN GROUP (ORDER BY NOTLIN  ) NOTTXT
- 
     from TRLR_NOTE
     GROUP BY TRLR_ID
 )
- 
 select
 rci.invnum,
  tr.trlr_num, dsts.lngdsc trlr_stat, tr.trlr_broker, tr.driver_nam, tr.DRIVER_LIC_NUM, dstt.LNGDSC trlr_typ, TR.TRLR_ID ,
@@ -36,29 +34,37 @@ $credenciaisBase64 = base64_encode($credenciais);
 $headers = array(
     'Authorization: Basic ' . $credenciaisBase64,
     'Content-Type: application/json',
-    'Accept: application/json' // Aqui indicamos que queremos a resposta em JSON
+    'Accept: text/csv' // Aqui, mudamos para text/csv
 );
 
-// Configurar o contexto HTTP com a requisição POST
 $options = array(
     'http' => array(
         'header'  => $headers,
         'method'  => 'POST',
-        'content' => json_encode($data), // Converte o array de dados para JSON
-        'ignore_errors' => true, // Isso permite capturar respostas de erro (por exemplo, 400 ou 500)
+        'content' => json_encode($data),
+        'ignore_errors' => true,
     )
 );
 
 $context = stream_context_create($options);
 
-// Fazer a requisição HTTP
 $response = file_get_contents($url, false, $context);
 
 if ($response === FALSE) {
-    // Tratar o erro
     echo "Erro na requisição";
 } else {
-    // Exibir a resposta
-    echo $response;
+    // Converter CSV para JSON
+    $lines = explode(PHP_EOL, $response);
+    $header = str_getcsv(array_shift($lines));
+    $result = [];
+
+    foreach ($lines as $line) {
+        if (!empty($line)) {
+            $result[] = array_combine($header, str_getcsv($line));
+        }
+    }
+
+    // Exibir a resposta em formato JSON
+    echo json_encode($result);
 }
 ?>
