@@ -1,15 +1,14 @@
 <?php
-$url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync?Content-Type=application%2Fjson&Accept=text%2Fcsv';
+$url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync';
 
 $data = array(
-    'myQuery' => ["WITH nota_carreta  AS (
+    'myQuery' => ["WITH nota_carreta AS (
     select
     TRLR_ID,
     LISTAGG( NOTTXT, '
     '  ) WITHIN GROUP (ORDER BY NOTLIN  ) NOTTXT
  
     from TRLR_NOTE
-    --WHERE TRLR_ID = 'TRL0550169'
     GROUP BY TRLR_ID
 )
  
@@ -25,8 +24,7 @@ left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat
 LEFT JOIN dscmst dstt ON dstt.colnam = 'trlr_typ' and dstt.LOCALE_ID = 'US_ENGLISH' and dstt.colval = tr.trlr_typ
 left join nota_carreta ntc on ntc.TRLR_ID = tr.trlr_id
 where
-rci.invnum = '8802889342'
---trknum, client_id, invnum"],
+rci.invnum = '8802889342'"],
     'body' => ['']
 );
 
@@ -37,7 +35,8 @@ $credenciaisBase64 = base64_encode($credenciais);
 
 $headers = array(
     'Authorization: Basic ' . $credenciaisBase64,
-    'Content-Type: application/json'
+    'Content-Type: application/json',
+    'Accept: application/json' // Aqui indicamos que queremos a resposta em JSON
 );
 
 // Configurar o contexto HTTP com a requisição POST
