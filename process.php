@@ -2,21 +2,30 @@
 $url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync?Content-Type=application%2Fjson&Accept=text%2Fcsv';
 
 $data = array(
-    'myQuery' => ["WITH nota_carreta  AS (
+    'myQuery' => ["WITH nota_carreta AS (
     select
     TRLR_ID,
     LISTAGG( NOTTXT, '
     '  ) WITHIN GROUP (ORDER BY NOTLIN  ) NOTTXT
- 
     from TRLR_NOTE
     GROUP BY TRLR_ID
 )
- 
 select
 rci.invnum,
- tr.trlr_num, dsts.lngdsc trlr_stat, tr.trlr_broker, tr.driver_nam, tr.DRIVER_LIC_NUM, dstt.LNGDSC trlr_typ, TR.TRLR_ID ,
- ntc.NOTTXT , TR.YARD_LOC,  TR.TRACTOR_NUM, TR.TRLR_SEAL1, TR.TRLR_SEAL2, TR.TRLR_SEAL3
- FROM
+tr.trlr_num,
+dsts.lngdsc trlr_stat,
+tr.trlr_broker,
+tr.driver_nam,
+tr.DRIVER_LIC_NUM,
+dstt.LNGDSC trlr_typ,
+TR.TRLR_ID,
+ntc.NOTTXT,
+TR.YARD_LOC,
+TR.TRACTOR_NUM,
+TR.TRLR_SEAL1,
+TR.TRLR_SEAL2,
+TR.TRLR_SEAL3
+FROM
 rcvinv rci
 left join RCVtrk rct on rci.TRKNUM = rct.TRKNUM
 left join trlr tr on tr.trlr_id = rct.trlr_id
@@ -50,14 +59,22 @@ $options = array(
 $context = stream_context_create($options);
 
 $response = '';
+$tractorNum = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $response = file_get_contents($url, false, $context);
     
     if ($response !== FALSE) {
+        // Tente decodificar a resposta JSON
         $responseData = json_decode($response, true);
-        // Supondo que a resposta seja um array e você esteja buscando TR.TRACTOR_NUM
-        $tractorNum = $responseData['data'][0]['TRACTOR_NUM'] ?? 'Não encontrado'; // Ajuste conforme a estrutura da resposta
+        
+        // Verifique se a estrutura da resposta contém os dados esperados
+        if (isset($responseData['data']) && !empty($responseData['data'])) {
+            // Ajuste conforme a estrutura exata da resposta
+            $tractorNum = $responseData['data'][0]['TRACTOR_NUM'] ?? 'Não encontrado';
+        } else {
+            $tractorNum = "Dados não encontrados.";
+        }
     } else {
         $tractorNum = "Erro na requisição";
     }
@@ -77,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="submit">Pesquisar</button>
     </form>
 
-    <?php if (isset($tractorNum)): ?>
+    <?php if ($tractorNum !== ''): ?>
         <input type="text" value="<?php echo htmlspecialchars($tractorNum); ?>" readonly placeholder="Placa do veículo">
     <?php endif; ?>
 </body>
