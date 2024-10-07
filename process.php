@@ -1,70 +1,82 @@
 <?php
-$url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obter os dados do JSON recebido
+    $data = json_decode(file_get_contents('php://input'), true);
+    $invoice = $data['invoice'] ?? '';
 
-$data = array(
-    'myQuery' => ["WITH nota_carreta AS (
-    select
-    TRLR_ID,
-    LISTAGG( NOTTXT, '
-    '  ) WITHIN GROUP (ORDER BY NOTLIN  ) NOTTXT
-    from TRLR_NOTE
-    GROUP BY TRLR_ID
-)
-select
-rci.invnum,
- tr.trlr_num, dsts.lngdsc trlr_stat, tr.trlr_broker, tr.driver_nam, tr.DRIVER_LIC_NUM, dstt.LNGDSC trlr_typ, TR.TRLR_ID ,
- ntc.NOTTXT , TR.YARD_LOC,  TR.TRACTOR_NUM, TR.TRLR_SEAL1, TR.TRLR_SEAL2, TR.TRLR_SEAL3
- FROM
-rcvinv rci
-left join RCVtrk rct on rci.TRKNUM = rct.TRKNUM
-left join trlr tr on tr.trlr_id = rct.trlr_id
-left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat' and dsts.locale_id = 'US_ENGLISH'
-LEFT JOIN dscmst dstt ON dstt.colnam = 'trlr_typ' and dstt.LOCALE_ID = 'US_ENGLISH' and dstt.colval = tr.trlr_typ
-left join nota_carreta ntc on ntc.TRLR_ID = tr.trlr_id
-where
-rci.invnum = '8802889342'"],
-    'body' => ['']
-);
+    // Defina a URL da API
+    $url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync';
 
-$user = 'arbarret';
-$password = '3KT8zx203@Brasil1';
-$credenciais = $user . ':' . $password;
-$credenciaisBase64 = base64_encode($credenciais);
-
-$headers = array(
-    'Authorization: Basic ' . $credenciaisBase64,
-    'Content-Type: application/json',
-    'Accept: text/csv' // Aqui, mudamos para text/csv
-);
-
-$options = array(
-    'http' => array(
-        'header'  => $headers,
-        'method'  => 'POST',
-        'content' => json_encode($data),
-        'ignore_errors' => true,
+    // Prepare os dados da consulta
+    $query = "WITH nota_carreta AS (
+        SELECT
+            TRLR_ID,
+            LISTAGG(NOTTXT, '
+            ') WITHIN GROUP (ORDER BY NOTLIN) NOTTXT
+        FROM TRLR_NOTE
+        GROUP BY TRLR_ID
     )
-);
+    SELECT
+        rci.invnum,
+        tr.trlr_num,
+        TR.TRCTOR_NUM
+    FROM
+        rcvinv rci
+    LEFT JOIN RCVtrk rct ON rci.TRKNUM = rct.TRKNUM
+    LEFT JOIN trlr tr ON tr.trlr_id = rct.trlr_id
+    WHERE
+        rci.invnum = '{$invoice}'";
 
-$context = stream_context_create($options);
+    $data = array('myQuery' => [$query]);
 
-$response = file_get_contents($url, false, $context);
+    $user = 'arbarret';
+    $password = '3KT8zx203@Brasil1';
+    $credenciais = $user . ':' . $password;
+    $credenciaisBase64 = base64_encode($credenciais);
 
-if ($response === FALSE) {
-    echo "Erro na requisição";
-} else {
-    // Converter CSV para JSON
-    $lines = explode(PHP_EOL, $response);
-    $header = str_getcsv(array_shift($lines));
-    $result = [];
+    $headers = array(
+        'Authorization: Basic ' . $credenciaisBase64,
+        'Content-Type: application/json',
+        'Accept: text/csv' // Mudamos para text/csv
+    );
 
-    foreach ($lines as $line) {
-        if (!empty($line)) {
-            $result[] = array_combine($header, str_getcsv($line));
+    $options = array(
+        'http' => array(
+            'header'  => $headers,
+            'method'  => 'POST',
+            'content' => json_encode($data),
+            'ignore_errors' => true,
+        )
+    );
+
+    $context = stream_context_create($options);
+
+    $response = file_get_contents($url, false, $context);
+
+    if ($response === FALSE) {
+        echo json_encode(['error' => 'Erro na requisição']);
+    } else {
+        // Converter CSV para array
+        $lines = explode(PHP_EOL, $response);
+        $header = str_getcsv(array_shift($lines));
+        $result = [];
+
+        foreach ($lines as $line) {
+            if (!empty($line)) {
+                $result[] = array_combine($header, str_getcsv($line));
+            }
         }
-    }
 
-    // Exibir a resposta em formato JSON
-    echo json_encode($result);
+        // Busca pela placa
+        $tractorNum = null;
+        foreach ($result as $row) {
+            if ($row['INVNUM'] == $invoice) {
+                $tractorNum = $row['TRACTOR_NUM'];
+                break;
+            }
+        }
+
+        echo json_encode(['tractorNum' => $tractorNum]);
+    }
 }
 ?>
