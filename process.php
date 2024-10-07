@@ -9,7 +9,6 @@ $data = array(
     '  ) WITHIN GROUP (ORDER BY NOTLIN  ) NOTTXT
  
     from TRLR_NOTE
-    --WHERE TRLR_ID = 'TRL0550169'
     GROUP BY TRLR_ID
 )
  
@@ -25,8 +24,7 @@ left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat
 LEFT JOIN dscmst dstt ON dstt.colnam = 'trlr_typ' and dstt.LOCALE_ID = 'US_ENGLISH' and dstt.colval = tr.trlr_typ
 left join nota_carreta ntc on ntc.TRLR_ID = tr.trlr_id
 where
-rci.invnum = '8802889342'
---trknum, client_id, invnum"],
+rci.invnum = '8802889342'"],
     'body' => ['']
 );
 
@@ -40,26 +38,47 @@ $headers = array(
     'Content-Type: application/json'
 );
 
-// Configurar o contexto HTTP com a requisição POST
 $options = array(
     'http' => array(
         'header'  => $headers,
         'method'  => 'POST',
-        'content' => json_encode($data), // Converte o array de dados para JSON
-        'ignore_errors' => true, // Isso permite capturar respostas de erro (por exemplo, 400 ou 500)
+        'content' => json_encode($data),
+        'ignore_errors' => true,
     )
 );
 
 $context = stream_context_create($options);
 
-// Fazer a requisição HTTP
-$response = file_get_contents($url, false, $context);
+$response = '';
 
-if ($response === FALSE) {
-    // Tratar o erro
-    echo "Erro na requisição";
-} else {
-    // Exibir a resposta
-    echo $response;
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $response = file_get_contents($url, false, $context);
+    
+    if ($response !== FALSE) {
+        $responseData = json_decode($response, true);
+        // Supondo que a resposta seja um array e você esteja buscando TR.TRACTOR_NUM
+        $tractorNum = $responseData['data'][0]['TRACTOR_NUM'] ?? 'Não encontrado'; // Ajuste conforme a estrutura da resposta
+    } else {
+        $tractorNum = "Erro na requisição";
+    }
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Veículo</title>
+</head>
+<body>
+    <form method="POST">
+        <input type="text" name="query" placeholder="Digite sua pesquisa" required>
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    <?php if (isset($tractorNum)): ?>
+        <input type="text" value="<?php echo htmlspecialchars($tractorNum); ?>" readonly placeholder="Placa do veículo">
+    <?php endif; ?>
+</body>
+</html>
