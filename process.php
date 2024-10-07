@@ -65,11 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($response === FALSE) {
         echo json_encode(['error' => 'Erro na requisição']);
     } else {
-        // Parse a resposta JSON
+        // Tente fazer o parsing da resposta JSON
         $responseData = json_decode($response, true);
 
-        // Aqui você deve formatar os dados como um array associativo
-        echo json_encode($responseData);
+        if (is_array($responseData) && !empty($responseData)) {
+            echo json_encode($responseData);
+        } else {
+            echo json_encode(['error' => 'Resposta vazia ou inválida']);
+        }
     }
 } else {
     echo json_encode(['error' => 'Método não permitido']);
