@@ -4,35 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Usuário</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        table {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cadastro de Usuário</h1>
-    <form id="userForm">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" required><br><br>
+    <div class="container">
+        <h1 class="text-center">Cadastro de Usuário</h1>
+        <form id="userForm" class="mb-4">
+            <div class="form-group">
+                <label for="name">Nome:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+
+        <button id="listUsers" class="btn btn-secondary mb-3">Listar Usuários</button>
         
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        
-        <input type="submit" value="Cadastrar">
-    </form>
-    
-    <button id="listUsers">Listar Usuários</button>
-    
-    <h2>Usuários Cadastrados</h2>
-    <table id="usersTable" border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Os dados dos usuários serão inseridos aqui -->
-        </tbody>
-    </table>
+        <h2>Usuários Cadastrados</h2>
+        <table class="table table-striped table-bordered" id="usersTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os dados dos usuários serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
 
     <script>
         $(document).ready(function() {
