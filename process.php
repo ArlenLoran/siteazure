@@ -69,7 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $responseData = json_decode($response, true);
 
         if (is_array($responseData) && !empty($responseData)) {
-            echo json_encode($responseData);
+            // Supondo que a resposta contém um array de resultados
+            $tractorNum = null;
+
+            // Percorre os resultados para encontrar a placa
+            foreach ($responseData as $item) {
+                if (isset($item['TRACTOR_NUM'])) {
+                    $tractorNum = $item['TRACTOR_NUM'];
+                    break; // Encontre a primeira ocorrência e pare
+                }
+            }
+
+            echo json_encode(['TR' => ['TRACTOR_NUM' => $tractorNum]]);
         } else {
             echo json_encode(['error' => 'Resposta vazia ou inválida']);
         }
