@@ -1,65 +1,55 @@
-<?php
-$url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync?Content-Type=application%2Fjson&Accept=text%2Fcsv';
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar Nota</title>
+</head>
+<body>
 
-$data = array(
-    'myQuery' => ["WITH nota_carreta  AS (
-    select
-    TRLR_ID,
-    LISTAGG( NOTTXT, '
-    '  ) WITHIN GROUP (ORDER BY NOTLIN  ) NOTTXT
- 
-    from TRLR_NOTE
-    --WHERE TRLR_ID = 'TRL0550169'
-    GROUP BY TRLR_ID
-)
- 
-select
-rci.invnum,
- tr.trlr_num, dsts.lngdsc trlr_stat, tr.trlr_broker, tr.driver_nam, tr.DRIVER_LIC_NUM, dstt.LNGDSC trlr_typ, TR.TRLR_ID ,
- ntc.NOTTXT , TR.YARD_LOC,  TR.TRACTOR_NUM, TR.TRLR_SEAL1, TR.TRLR_SEAL2, TR.TRLR_SEAL3
- FROM
-rcvinv rci
-left join RCVtrk rct on rci.TRKNUM = rct.TRKNUM
-left join trlr tr on tr.trlr_id = rct.trlr_id
-left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat' and dsts.locale_id = 'US_ENGLISH'
-LEFT JOIN dscmst dstt ON dstt.colnam = 'trlr_typ' and dstt.LOCALE_ID = 'US_ENGLISH' and dstt.colval = tr.trlr_typ
-left join nota_carreta ntc on ntc.TRLR_ID = tr.trlr_id
-where
-rci.invnum = '8802889342'
---trknum, client_id, invnum"],
-    'body' => ['']
-);
+    <h1>Pesquisar Nota</h1>
+    <form id="searchForm" method="POST" action="process.php">
+        <input type="text" name="invoice_number" placeholder="Digite o número da nota" required>
+        <button type="submit">Pesquisar</button>
+    </form>
 
-$user = 'arbarret';
-$password = '3KT8zx203@Brasil1';
-$credenciais = $user . ':' . $password;
-$credenciaisBase64 = base64_encode($credenciais);
+    <div id="result">
+        <!-- Os inputs dos resultados aparecerão aqui -->
+    </div>
 
-$headers = array(
-    'Authorization: Basic ' . $credenciaisBase64,
-    'Content-Type: application/json'
-);
+    <script>
+        // Captura o envio do formulário
+        document.getElementById('searchForm').onsubmit = function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
 
-// Configurar o contexto HTTP com a requisição POST
-$options = array(
-    'http' => array(
-        'header'  => $headers,
-        'method'  => 'POST',
-        'content' => json_encode($data), // Converte o array de dados para JSON
-        'ignore_errors' => true, // Isso permite capturar respostas de erro (por exemplo, 400 ou 500)
-    )
-);
+            const formData = new FormData(this);
 
-$context = stream_context_create($options);
+            // Faz a requisição usando fetch
+            fetch('process.php', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = ''; // Limpa resultados anteriores
 
-// Fazer a requisição HTTP
-$response = file_get_contents($url, false, $context);
+                // Cria inputs para cada coluna retornada
+                for (const [key, value] of Object.entries(data)) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = key;
+                    input.placeholder = key;
+                    input.value = value;
+                    resultDiv.appendChild(input);
+                    resultDiv.appendChild(document.createElement('br'));
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        };
+    </script>
 
-if ($response === FALSE) {
-    // Tratar o erro
-    echo "Erro na requisição";
-} else {
-    // Exibir a resposta
-    echo $response;
-}
-?>
+</body>
+</html>
