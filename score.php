@@ -7,7 +7,7 @@
     <script>
         async function consultar() {
             const invoice = document.getElementById('invoice').value;
-            const response = await fetch('consulta.php', {
+            const response = await fetch('process.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
