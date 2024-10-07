@@ -2,7 +2,7 @@
 $url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync?Content-Type=application%2Fjson&Accept=text%2Fcsv';
 
 $data = array(
-    'myQuery' => "SELECT
+    'myQuery' => ["SELECT
         ivs.lodnum,
         ivl.stoloc,
         rcl.prtnum,
@@ -22,7 +22,7 @@ $data = array(
     LEFT JOIN invlod ivl ON ivl.lodnum = ivs.lodnum
     LEFT JOIN prtdsc prd ON prd.locale_id = 'US_ENGLISH' AND prd.colval = rcl.prtnum || '|RBCCID|RCKT'
     WHERE
-        rcl.invnum = '8802889342'",
+        rcl.invnum = '8802889342'"],
     'body' => ['']
 );
 
