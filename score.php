@@ -22,7 +22,8 @@ $data = array(
     LEFT JOIN invlod ivl ON ivl.lodnum = ivs.lodnum
     LEFT JOIN prtdsc prd ON prd.locale_id = 'US_ENGLISH' AND prd.colval = rcl.prtnum || '|RBCCID|RCKT'
     WHERE
-        rcl.invnum = '8802889342'"
+        rcl.invnum = '8802889342'",
+    'body' => ['']
 );
 
 $user = 'arbarret';
