@@ -2,7 +2,7 @@
   $url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync?Content-Type=application%2Fjson&Accept=text%2Fcsv';
  
   $data = array(
-      'myQuery' => ['Select * from invlod'],
+      'myQuery' => ['Select * from dual'],
       'body' => ['']
   );
  
