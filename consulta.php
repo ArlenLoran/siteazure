@@ -41,7 +41,7 @@ LEFT JOIN
 LEFT JOIN 
     nota_carreta ntc ON ntc.TRLR_ID = tr.trlr_id
 WHERE
-    rci.invnum = '$invnum'"],
+    rci.invnum = '8802889342'"],
     'body' => ['']
 );
 
