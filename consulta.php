@@ -72,7 +72,7 @@ $response = file_get_contents($url, false, $context);
 if ($response === FALSE) {
     echo json_encode(['error' => 'Erro na requisição']);
 } else {
-    // Converter CSV para JSON e retornar apenas a coluna ntc.NOTTXT
+    // Converter CSV para JSON e retornar as colunas necessárias
     $lines = explode(PHP_EOL, $response);
     $header = str_getcsv(array_shift($lines));
     $result = [];
@@ -80,14 +80,25 @@ if ($response === FALSE) {
     foreach ($lines as $line) {
         if (!empty($line)) {
             $row = array_combine($header, str_getcsv($line));
-            // Adiciona apenas ntc.NOTTXT ao resultado
-            if (isset($row['NOTTXT'])) {
-                $result[] = trim($row['NOTTXT']); // Remove espaços em branco
-            }
+            // Adiciona as colunas desejadas ao resultado
+            $result[] = [
+                'trlr_num' => $row['trlr_num'] ?? '',
+                'invnum' => $row['invnum'] ?? '',
+                'trlr_broker' => $row['trlr_broker'] ?? '',
+                'driver_nam' => $row['driver_nam'] ?? '',
+                'DRIVER_LIC_NUM' => $row['DRIVER_LIC_NUM'] ?? '',
+                'trlr_typ' => $row['trlr_typ'] ?? '',
+                'NOTTXT' => $row['NOTTXT'] ?? '',
+                'YARD_LOC' => $row['YARD_LOC'] ?? '',
+                'TRACTOR_NUM' => $row['TRACTOR_NUM'] ?? '',
+                'TRLR_SEAL1' => $row['TRLR_SEAL1'] ?? '',
+                'TRLR_SEAL2' => $row['TRLR_SEAL2'] ?? '',
+                'TRLR_SEAL3' => $row['TRLR_SEAL3'] ?? ''
+            ];
         }
     }
 
     // Exibir a resposta em formato JSON
-    echo json_encode(array_values($result)); // Garante que o array seja reindexado
+    echo json_encode($result);
 }
 ?>
