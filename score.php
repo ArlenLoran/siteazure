@@ -11,7 +11,7 @@
 
             console.log('Número da Nota:', invnum); // Log do número da nota
 
-            fetch('seu_script.php', { // Altere 'seu_script.php' para o caminho do seu arquivo PHP
+            fetch('consulta.php', { // Altere 'seu_script.php' para o caminho do seu arquivo PHP
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
