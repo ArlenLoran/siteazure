@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesquisa de Placa</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        .header {
+            background-color: #f6c200;
+            padding: 20px;
+            text-align: center;
+            color: #000;
+            border-bottom: 3px solid #d84f26;
+        }
+        .btn-dhl {
+            background-color: #d84f26;
+            color: #fff;
+        }
+        .btn-dhl:hover {
+            background-color: #b6391e;
+        }
+        .result-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .inspection-questions label {
+            font-weight: bold;
+        }
+        .form-control:readonly {
+            background-color: #f7f7f7;
+            opacity: 1; /* Para garantir que o fundo fique visível */
+        }
+    </style>
     <script>
         function pesquisar() {
             const invnum = document.getElementById('invnum').value;
@@ -60,103 +92,110 @@
         }
     </script>
 </head>
-<body class="bg-light">
+<body>
+
+    <header class="header">
+        <h1>Pesquisa de Placa</h1>
+    </header>
 
     <div class="container mt-5">
-        <h1 class="text-center">Pesquisar Placa</h1>
         <div class="form-group">
             <input type="text" class="form-control" id="invnum" placeholder="Digite o número da nota" />
-            <button class="btn btn-primary mt-3" onclick="pesquisar()">Pesquisar</button>
+            <button class="btn btn-dhl mt-3" onclick="pesquisar()">Pesquisar</button>
         </div>
 
-        <h2 class="mt-4">Resultados da Pesquisa</h2>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="trlr_num" placeholder="Placa do Veículo" readonly />
+        <div class="result-container mt-4">
+            <h2 class="text-center">Resultados da Pesquisa</h2>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="trlr_num" placeholder="Placa do Veículo" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="invoice" placeholder="Invoice" readonly />
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="invoice" placeholder="Invoice" readonly />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="trlr_broker" placeholder="Nome da Transportadora" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="driver_nam" placeholder="Nome do Motorista" readonly />
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="trlr_broker" placeholder="Nome da Transportadora" readonly />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="driver_lic_num" placeholder="Carteira do Motorista" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="trlr_typ" placeholder="Tipo do Veículo" readonly />
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="driver_nam" placeholder="Nome do Motorista" readonly />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="nottxt" placeholder="Comentário" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="yard_loc" placeholder="Doca" readonly />
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="driver_lic_num" placeholder="Carteira do Motorista" readonly />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="tractor_num" placeholder="Pager" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="trlr_seal1" placeholder="Lacre 1" readonly />
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="trlr_typ" placeholder="Tipo do Veículo" readonly />
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="nottxt" placeholder="Comentário" readonly />
-            </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="yard_loc" placeholder="Doca" readonly />
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="tractor_num" placeholder="Pager" readonly />
-            </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="trlr_seal1" placeholder="Lacre 1" readonly />
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="trlr_seal2" placeholder="Lacre 2" readonly />
-            </div>
-            <div class="form-group col-md-6">
-                <input type="text" class="form-control" id="trlr_seal3" placeholder="Lacre 3" readonly />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="trlr_seal2" placeholder="Lacre 2" readonly />
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" class="form-control" id="trlr_seal3" placeholder="Lacre 3" readonly />
+                </div>
             </div>
         </div>
 
-        <h2 class="mt-4">Perguntas de Inspeção</h2>
-        <form>
-            <div class="form-group">
-                <label>1. O veículo está em boas condições?</label>
-                <div>
-                    <label class="mr-3"><input type="radio" name="questao1" value="sim"> Sim</label>
-                    <label><input type="radio" name="questao1" value="nao"> Não</label>
+        <div class="inspection-questions mt-4">
+            <h2 class="text-center">Perguntas de Inspeção</h2>
+            <form>
+                <div class="form-group">
+                    <label>1. O veículo está em boas condições?</label>
+                    <div>
+                        <label class="mr-3"><input type="radio" name="questao1" value="sim"> Sim</label>
+                        <label><input type="radio" name="questao1" value="nao"> Não</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>2. Todos os lacres estão intactos?</label>
-                <div>
-                    <label class="mr-3"><input type="radio" name="questao2" value="sim"> Sim</label>
-                    <label><input type="radio" name="questao2" value="nao"> Não</label>
+                <div class="form-group">
+                    <label>2. Todos os lacres estão intactos?</label>
+                    <div>
+                        <label class="mr-3"><input type="radio" name="questao2" value="sim"> Sim</label>
+                        <label><input type="radio" name="questao2" value="nao"> Não</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>3. A documentação está em ordem?</label>
-                <div>
-                    <label class="mr-3"><input type="radio" name="questao3" value="sim"> Sim</label>
-                    <label><input type="radio" name="questao3" value="nao"> Não</label>
+                <div class="form-group">
+                    <label>3. A documentação está em ordem?</label>
+                    <div>
+                        <label class="mr-3"><input type="radio" name="questao3" value="sim"> Sim</label>
+                        <label><input type="radio" name="questao3" value="nao"> Não</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>4. O motorista possui a habilitação correta?</label>
-                <div>
-                    <label class="mr-3"><input type="radio" name="questao4" value="sim"> Sim</label>
-                    <label><input type="radio" name="questao4" value="nao"> Não</label>
+                <div class="form-group">
+                    <label>4. O motorista possui a habilitação correta?</label>
+                    <div>
+                        <label class="mr-3"><input type="radio" name="questao4" value="sim"> Sim</label>
+                        <label><input type="radio" name="questao4" value="nao"> Não</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>5. O veículo possui o seguro necessário?</label>
-                <div>
-                    <label class="mr-3"><input type="radio" name="questao5" value="sim"> Sim</label>
-                    <label><input type="radio" name="questao5" value="nao"> Não</label>
+                <div class="form-group">
+                    <label>5. O veículo possui o seguro necessário?</label>
+                    <div>
+                        <label class="mr-3"><input type="radio" name="questao5" value="sim"> Sim</label>
+                        <label><input type="radio" name="questao5" value="nao"> Não</label>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
