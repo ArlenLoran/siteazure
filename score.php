@@ -9,7 +9,7 @@
             const invnum = document.getElementById('invnum').value;
             const resultadoInput = document.getElementById('resultado');
 
-            fetch('seu_script.php', { // Altere 'consulta.php' para o caminho do seu arquivo PHP
+            fetch('consulta.php', { // Altere 'consulta.php' para o caminho do seu arquivo PHP
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
