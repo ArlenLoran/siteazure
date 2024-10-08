@@ -62,7 +62,7 @@ if ($response === FALSE) {
         if (!empty($line)) {
             $row = array_combine($header, str_getcsv($line));
             // Adiciona apenas ntc.NOTTXT ao resultado
-            $result[] = $row['ntc.NOTTXT']; // Certifique-se de que o nome da coluna está correto
+            $result[] = $row['NOTTXT']; // Certifique-se de que o nome da coluna está correto
         }
     }
 
