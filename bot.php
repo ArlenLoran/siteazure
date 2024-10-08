@@ -22,6 +22,7 @@
         }
         .btn-dhl:hover {
             background-color: #b6391e;
+            width: 100%;
         }
         .result-container {
             background-color: #fff;
