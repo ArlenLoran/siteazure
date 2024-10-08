@@ -47,9 +47,11 @@
                     resultadoInputs.nottxt.value = result.NOTTXT || 'N/A';
                     resultadoInputs.yard_loc.value = result.YARD_LOC || 'N/A';
                     resultadoInputs.tractor_num.value = result.TRACTOR_NUM || 'N/A';
-                    resultadoInputs.trlr_seal1.value = result.TRLR_SEAL1 || 'N/A';
-                    resultadoInputs.trlr_seal2.value = result.TRLR_SEAL2 || 'N/A';
-                    resultadoInputs.trlr_seal3.value = result.TRLR_SEAL3 || 'N/A';
+
+                    // Verifica se os lacres são "NA" e atribui "N/A" se necessário
+                    resultadoInputs.trlr_seal1.value = (result.TRLR_SEAL1 === 'NA') ? 'N/A' : result.TRLR_SEAL1;
+                    resultadoInputs.trlr_seal2.value = (result.TRLR_SEAL2 === 'NA') ? 'N/A' : result.TRLR_SEAL2;
+                    resultadoInputs.trlr_seal3.value = (result.TRLR_SEAL3 === 'NA') ? 'N/A' : result.TRLR_SEAL3;
                 } else {
                     // Preenche todos os campos com N/A se não houver resultados
                     Object.values(resultadoInputs).forEach(input => input.value = 'N/A');
