@@ -18,11 +18,13 @@
             })
             .then(response => response.json())
             .then(data => {
+                console.log('Dados retornados:', data); // Log para depuração
+
                 // Verifica se há erro na resposta
                 if (data.error) {
                     resultadoInput.value = data.error;
                 } else {
-                    // Concatena os resultados em uma string, se houver mais de um
+                    // Exibir os resultados
                     resultadoInput.value = data.length > 0 ? data.join(', ') : 'Nenhum resultado encontrado';
                 }
             })
