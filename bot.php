@@ -158,7 +158,7 @@
 
         <div class="inspection-questions mt-4">
             <h2 class="text-center">Perguntas de Inspeção</h2>
-            <form>
+            <form class="text-center">
                 <div class="form-group">
                     <label>1. O veículo está em boas condições?</label>
                     <div>
