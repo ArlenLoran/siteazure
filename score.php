@@ -38,21 +38,21 @@
                 // Preenche os inputs com os dados retornados
                 if (data.length > 0) {
                     const result = data[0]; // Assumindo que estamos interessados apenas no primeiro resultado
-                    resultadoInputs.trlr_num.value = result.trlr_num || '';
-                    resultadoInputs.invnum.value = result.invnum || '';
-                    resultadoInputs.trlr_broker.value = result.trlr_broker || '';
-                    resultadoInputs.driver_nam.value = result.driver_nam || '';
-                    resultadoInputs.driver_lic_num.value = result.DRIVER_LIC_NUM || '';
-                    resultadoInputs.trlr_typ.value = result.trlr_typ || '';
-                    resultadoInputs.nottxt.value = result.NOTTXT || '';
-                    resultadoInputs.yard_loc.value = result.YARD_LOC || '';
-                    resultadoInputs.tractor_num.value = result.TRACTOR_NUM || '';
-                    resultadoInputs.trlr_seal1.value = result.TRLR_SEAL1 || '';
-                    resultadoInputs.trlr_seal2.value = result.TRLR_SEAL2 || '';
-                    resultadoInputs.trlr_seal3.value = result.TRLR_SEAL3 || '';
+                    resultadoInputs.trlr_num.value = result.trlr_num || 'N/A';
+                    resultadoInputs.invnum.value = result.invnum || 'N/A';
+                    resultadoInputs.trlr_broker.value = result.trlr_broker || 'N/A';
+                    resultadoInputs.driver_nam.value = result.driver_nam || 'N/A';
+                    resultadoInputs.driver_lic_num.value = result.DRIVER_LIC_NUM || 'N/A';
+                    resultadoInputs.trlr_typ.value = result.trlr_typ || 'N/A';
+                    resultadoInputs.nottxt.value = result.NOTTXT || 'N/A';
+                    resultadoInputs.yard_loc.value = result.YARD_LOC || 'N/A';
+                    resultadoInputs.tractor_num.value = result.TRACTOR_NUM || 'N/A';
+                    resultadoInputs.trlr_seal1.value = result.TRLR_SEAL1 || 'N/A';
+                    resultadoInputs.trlr_seal2.value = result.TRLR_SEAL2 || 'N/A';
+                    resultadoInputs.trlr_seal3.value = result.TRLR_SEAL3 || 'N/A';
                 } else {
-                    // Limpa os campos se não houver resultados
-                    Object.values(resultadoInputs).forEach(input => input.value = '');
+                    // Preenche todos os campos com N/A se não houver resultados
+                    Object.values(resultadoInputs).forEach(input => input.value = 'N/A');
                     alert('Nenhum resultado encontrado');
                 }
             })
@@ -81,4 +81,7 @@
     <input type="text" id="tractor_num" placeholder="Pager" readonly />
     <input type="text" id="trlr_seal1" placeholder="Lacre 1" readonly />
     <input type="text" id="trlr_seal2" placeholder="Lacre 2" readonly />
-  
+    <input type="text" id="trlr_seal3" placeholder="Lacre 3" readonly />
+
+</body>
+</html>
