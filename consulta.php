@@ -82,7 +82,7 @@ if ($response === FALSE) {
             $row = array_combine($header, str_getcsv($line));
             // Adiciona as colunas desejadas ao resultado
             $result[] = [
-                'trlr_num' => $row['NOTTXT'] ?? '',
+                'trlr_num' => $row['TLRL_NUM'] ?? '',
                 'invnum' => $row['invnum'] ?? '',
                 'trlr_broker' => $row['trlr_broker'] ?? '',
                 'driver_nam' => $row['driver_nam'] ?? '',
