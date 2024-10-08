@@ -9,16 +9,22 @@
             const invnum = document.getElementById('invnum').value;
             const resultadoInput = document.getElementById('resultado');
 
-            fetch('consulta.php', { // Altere 'consulta.php' para o caminho do seu arquivo PHP
+            fetch('consulta.php', { // Altere 'seu_script.php' para o caminho do seu arquivo PHP
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: `invnum=${invnum}`
+                body: `invnum=${encodeURIComponent(invnum)}`
             })
             .then(response => response.json())
             .then(data => {
-                resultadoInput.value = data.length > 0 ? data.join(', ') : 'Nenhum resultado encontrado';
+                // Verifica se há erro na resposta
+                if (data.error) {
+                    resultadoInput.value = data.error;
+                } else {
+                    // Concatena os resultados em uma string, se houver mais de um
+                    resultadoInput.value = data.length > 0 ? data.join(', ') : 'Nenhum resultado encontrado';
+                }
             })
             .catch(error => {
                 console.error('Erro:', error);
