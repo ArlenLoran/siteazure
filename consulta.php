@@ -83,11 +83,11 @@ if ($response === FALSE) {
             // Adiciona as colunas desejadas ao resultado
             $result[] = [
                 'trlr_num' => $row['TRLR_NUM'] ?? '',
-                'invnum' => $row['invnum'] ?? '',
-                'trlr_broker' => $row['trlr_broker'] ?? '',
-                'driver_nam' => $row['driver_nam'] ?? '',
+                'invnum' => $row['INVNUM'] ?? '',
+                'trlr_broker' => $row['TRLR_BROKER'] ?? '',
+                'driver_nam' => $row['DRIVER_NAM'] ?? '',
                 'DRIVER_LIC_NUM' => $row['DRIVER_LIC_NUM'] ?? '',
-                'trlr_typ' => $row['trlr_typ'] ?? '',
+                'trlr_typ' => $row['TRLR_TYP'] ?? '',
                 'NOTTXT' => $row['NOTTXT'] ?? '',
                 'YARD_LOC' => $row['YARD_LOC'] ?? '',
                 'TRACTOR_NUM' => $row['TRACTOR_NUM'] ?? '',
