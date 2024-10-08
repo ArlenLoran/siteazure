@@ -53,14 +53,16 @@ $response = file_get_contents($url, false, $context);
 if ($response === FALSE) {
     echo "Erro na requisição";
 } else {
-    // Converter CSV para JSON
+    // Converter CSV para JSON e retornar apenas a coluna ntc.NOTTXT
     $lines = explode(PHP_EOL, $response);
     $header = str_getcsv(array_shift($lines));
     $result = [];
 
     foreach ($lines as $line) {
         if (!empty($line)) {
-            $result[] = array_combine($header, str_getcsv($line));
+            $row = array_combine($header, str_getcsv($line));
+            // Adiciona apenas ntc.NOTTXT ao resultado
+            $result[] = $row['ntc.NOTTXT']; // Certifique-se de que o nome da coluna está correto
         }
     }
 
