@@ -1,6 +1,8 @@
 <?php
 $url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync';
 
+$invnum = isset($_POST['invnum']) ? $_POST['invnum'] : '8802889342'; // Padrão se não houver entrada
+
 $data = array(
     'myQuery' => ["WITH nota_carreta AS (
     select
@@ -22,51 +24,10 @@ left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat
 LEFT JOIN dscmst dstt ON dstt.colnam = 'trlr_typ' and dstt.LOCALE_ID = 'US_ENGLISH' and dstt.colval = tr.trlr_typ
 left join nota_carreta ntc on ntc.TRLR_ID = tr.trlr_id
 where
-rci.invnum = '8802889342'"],
+rci.invnum = '$invnum'"], // Utilize o valor recebido
     'body' => ['']
 );
 
-$user = 'arbarret';
-$password = '3KT8zx203@Brasil1';
-$credenciais = $user . ':' . $password;
-$credenciaisBase64 = base64_encode($credenciais);
+// (O restante do seu código permanece inalterado)
 
-$headers = array(
-    'Authorization: Basic ' . $credenciaisBase64,
-    'Content-Type: application/json',
-    'Accept: text/csv' // Aqui, mudamos para text/csv
-);
-
-$options = array(
-    'http' => array(
-        'header'  => $headers,
-        'method'  => 'POST',
-        'content' => json_encode($data),
-        'ignore_errors' => true,
-    )
-);
-
-$context = stream_context_create($options);
-
-$response = file_get_contents($url, false, $context);
-
-if ($response === FALSE) {
-    echo "Erro na requisição";
-} else {
-    // Converter CSV para JSON e retornar apenas a coluna ntc.NOTTXT
-    $lines = explode(PHP_EOL, $response);
-    $header = str_getcsv(array_shift($lines));
-    $result = [];
-
-    foreach ($lines as $line) {
-        if (!empty($line)) {
-            $row = array_combine($header, str_getcsv($line));
-            // Adiciona apenas ntc.NOTTXT ao resultado
-            $result[] = $row['NOTTXT']; // Certifique-se de que o nome da coluna está correto
-        }
-    }
-
-    // Exibir a resposta em formato JSON
-    echo json_encode($result);
-}
 ?>
