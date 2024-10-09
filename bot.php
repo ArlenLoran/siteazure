@@ -69,8 +69,8 @@
                 console.log('Dados retornados:', data);
                 if (data.length > 0) {
                     const result = data[0];
-                    resultadoInputs.trlr_num.value = result.trlr_num || 'N/A';
-                    resultadoInputs.invnum.value = result.invnum || 'N/A';
+                    resultadoInputs.trlr_num.value = result.TRLR_NUM || 'N/A';
+                    resultadoInputs.invnum.value = result.INVNUM || 'N/A';
                     resultadoInputs.trlr_broker.value = result.trlr_broker || 'N/A';
                     resultadoInputs.driver_nam.value = result.driver_nam || 'N/A';
                     resultadoInputs.driver_lic_num.value = result.DRIVER_LIC_NUM || 'N/A';
