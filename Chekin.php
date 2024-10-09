@@ -121,84 +121,84 @@ function escape_html($string) {
 
 
                         <div class="row">
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Placa do veículo</label>
                                     <input type="text" id="trlr_num" name="trlr_num" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Invoice</label>
                                     <input type="text" id="invoice" name="invoice" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Transportadora</label>
                                     <input type="text" id="trlr_broker" name="trlr_broker" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Motorista</label>
                                     <input type="text" id="driver_nam" name="driver_nam" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Carteira do motorista</label>
                                     <input type="text" id="driver_lic_num" name="driver_lic_num" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Tipo do veículo</label>
                                     <input type="text" id="trlr_typ" name="trlr_typ" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Comentário</label>
                                     <input type="text" id="nottxt" name="nottxt" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Doca</label>
                                     <input type="text" id="yard_loc" name="yard_loc" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Pager</label>
                                     <input type="text" id="tractor_num" name="tractor_num" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Lacre 1</label>
                                     <input type="text" id="trlr_seal1" name="trlr_seal1" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Lacre 2</label>
                                     <input type="text" id="trlr_seal2" name="trlr_seal2" class="form-control" readonly>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-sm-6 col-12">
+                            <div class="col-lg-4 col-sm-4 col-12">
                                 <div class="form-group">
                                     <label for="codigoEpi"> Lacre 3</label>
                                     <input type="text" id="trlr_seal3" name="trlr_seal3" class="form-control" readonly>
