@@ -77,6 +77,11 @@ function escape_html($string) {
     <?php include 'Configuracoes/menulateral.php'; ?>
     <!-- /Sidebar -->
 
+<div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; text-align:center; padding-top:20%;">
+    <div style="color:white; font-size:20px;">Carregando...</div>
+</div>
+
+
     <div class="page-wrapper">
         <div class="content">
             <div class="page-header">
@@ -356,6 +361,9 @@ function pesquisar() {
 
     const invnum = document.getElementById('invnum').value;
 
+    // Mostra o overlay
+    document.getElementById('overlay').style.display = 'block';
+
     fetch('consultar.php', {
         method: 'POST',
         headers: {
@@ -365,6 +373,9 @@ function pesquisar() {
     })
     .then(response => response.json())
     .then(data => {
+        // Esconde o overlay ao receber a resposta
+        document.getElementById('overlay').style.display = 'none';
+
         if (data.error) {
             alert(data.error);
         } else if (data.length > 0) {
@@ -382,12 +393,14 @@ function pesquisar() {
             document.getElementById('trlr_seal1').value = (item.TRLR_SEAL1 === 'NA' ? 'N/A' : item.TRLR_SEAL1) || 'N/A';
             document.getElementById('trlr_seal2').value = (item.TRLR_SEAL2 === 'NA' ? 'N/A' : item.TRLR_SEAL2) || 'N/A';
             document.getElementById('trlr_seal3').value = (item.TRLR_SEAL3 === 'NA' ? 'N/A' : item.TRLR_SEAL3) || 'N/A';
-
         }
     })
     .catch(error => {
+        // Esconde o overlay em caso de erro
+        document.getElementById('overlay').style.display = 'none';
         console.error('Erro:', error);
     });
 }
+
 </script>
 
