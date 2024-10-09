@@ -265,7 +265,7 @@ function escape_html($string) {
                 trlr_seal3: document.getElementById('trlr_seal3'),
             };
 
-            fetch('consulta.php', {
+            fetch('consultar.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
