@@ -247,59 +247,45 @@ function escape_html($string) {
 ?>
 
 <script>
-        function pesquisar() {
-            const invnum = document.getElementById('invnum').value;
+function pesquisar() {
+    event.preventDefault(); // Impede o envio do formulário
 
-            const resultadoInputs = {
-                trlr_num: document.getElementById('trlr_num'),
-                invnum: document.getElementById('invoice'),
-                trlr_broker: document.getElementById('trlr_broker'),
-                driver_nam: document.getElementById('driver_nam'),
-                driver_lic_num: document.getElementById('driver_lic_num'),
-                trlr_typ: document.getElementById('trlr_typ'),
-                nottxt: document.getElementById('nottxt'),
-                yard_loc: document.getElementById('yard_loc'),
-                tractor_num: document.getElementById('tractor_num'),
-                trlr_seal1: document.getElementById('trlr_seal1'),
-                trlr_seal2: document.getElementById('trlr_seal2'),
-                trlr_seal3: document.getElementById('trlr_seal3'),
-            };
+    const invnum = document.getElementById('invnum').value;
 
-            fetch('consultar.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `invnum=${encodeURIComponent(invnum)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Dados retornados:', data);
-                if (data.length > 0) {
-                    const result = data[0];
-                    resultadoInputs.trlr_num.value = result.trlr_num || 'N/A';
-                    resultadoInputs.invnum.value = result.invnum || 'N/A';
-                    resultadoInputs.trlr_broker.value = result.trlr_broker || 'N/A';
-                    resultadoInputs.driver_nam.value = result.driver_nam || 'N/A';
-                    resultadoInputs.driver_lic_num.value = result.DRIVER_LIC_NUM || 'N/A';
-                    resultadoInputs.trlr_typ.value = result.trlr_typ || 'N/A';
-                    resultadoInputs.nottxt.value = result.NOTTXT || 'N/A';
-                    resultadoInputs.yard_loc.value = result.YARD_LOC || 'N/A';
-                    resultadoInputs.tractor_num.value = result.TRACTOR_NUM || 'N/A';
-                    resultadoInputs.trlr_seal1.value = (result.TRLR_SEAL1 === 'NA') ? 'N/A' : result.TRLR_SEAL1;
-                    resultadoInputs.trlr_seal2.value = (result.TRLR_SEAL2 === 'NA') ? 'N/A' : result.TRLR_SEAL2;
-                    resultadoInputs.trlr_seal3.value = (result.TRLR_SEAL3 === 'NA') ? 'N/A' : result.TRLR_SEAL3;
-                } else {
-                    Object.values(resultadoInputs).forEach(input => input.value = 'N/A');
-                    alert('Nenhum resultado encontrado');
-                }
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro na pesquisa');
-            });
+    fetch('consultar.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'invnum=' + encodeURIComponent(invnum)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert(data.error);
+        } else if (data.length > 0) {
+            // Preenche os inputs com os dados retornados
+            const item = data[0];
+            document.getElementById('trlr_num').value = item.trlr_num;
+            document.getElementById('invoice').value = item.invnum;
+            document.getElementById('trlr_broker').value = item.trlr_broker;
+            document.getElementById('driver_nam').value = item.driver_nam;
+            document.getElementById('driver_lic_num').value = item.DRIVER_LIC_NUM;
+            document.getElementById('trlr_typ').value = item.trlr_typ;
+            document.getElementById('nottxt').value = item.NOTTXT;
+            document.getElementById('yard_loc').value = item.YARD_LOC;
+            document.getElementById('tractor_num').value = item.TRACTOR_NUM;
+            document.getElementById('trlr_seal1').value = item.TRLR_SEAL1;
+            document.getElementById('trlr_seal2').value = item.TRLR_SEAL2;
+            document.getElementById('trlr_seal3').value = item.TRLR_SEAL3;
         }
-    </script>
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    });
+}
+</script>
+
 
 
 
