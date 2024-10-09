@@ -371,18 +371,19 @@ function pesquisar() {
         } else if (data.length > 0) {
             // Preenche os inputs com os dados retornados
             const item = data[0];
-            document.getElementById('trlr_num').value = item.trlr_num;
-            document.getElementById('invoice').value = item.invnum;
-            document.getElementById('trlr_broker').value = item.trlr_broker;
-            document.getElementById('driver_nam').value = item.driver_nam;
-            document.getElementById('driver_lic_num').value = item.DRIVER_LIC_NUM;
-            document.getElementById('trlr_typ').value = item.trlr_typ;
-            document.getElementById('nottxt').value = item.NOTTXT;
-            document.getElementById('yard_loc').value = item.YARD_LOC;
-            document.getElementById('tractor_num').value = item.TRACTOR_NUM;
-            document.getElementById('trlr_seal1').value = item.TRLR_SEAL1;
-            document.getElementById('trlr_seal2').value = item.TRLR_SEAL2;
-            document.getElementById('trlr_seal3').value = item.TRLR_SEAL3;
+            document.getElementById('trlr_num').value = item.trlr_num || 'N/A';
+            document.getElementById('invoice').value = item.invnum || 'N/A';
+            document.getElementById('trlr_broker').value = item.trlr_broker || 'N/A';
+            document.getElementById('driver_nam').value = item.driver_nam || 'N/A';
+            document.getElementById('driver_lic_num').value = item.DRIVER_LIC_NUM || 'N/A';
+            document.getElementById('trlr_typ').value = item.trlr_typ || 'N/A';
+            document.getElementById('nottxt').value = item.NOTTXT || 'N/A';
+            document.getElementById('yard_loc').value = item.YARD_LOC || 'N/A';
+            document.getElementById('tractor_num').value = item.TRACTOR_NUM || 'N/A';
+            document.getElementById('trlr_seal1').value = (item.TRLR_SEAL1 === 'NA' ? 'N/A' : item.TRLR_SEAL1) || 'N/A';
+            document.getElementById('trlr_seal2').value = (item.TRLR_SEAL2 === 'NA' ? 'N/A' : item.TRLR_SEAL2) || 'N/A';
+            document.getElementById('trlr_seal3').value = (item.TRLR_SEAL3 === 'NA' ? 'N/A' : item.TRLR_SEAL3) || 'N/A';
+
         }
     })
     .catch(error => {
