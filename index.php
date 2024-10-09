@@ -1,7 +1,6 @@
 <?php
 
 // Proteção contra XSS
-// Função para escapar caracteres especiais em HTML. Isso ajuda a prevenir ataques Cross-Site Scripting (XSS) ao garantir que caracteres especiais em strings não sejam interpretados como código HTML.
 function escape_html($string) {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
@@ -16,6 +15,23 @@ function escape_html($string) {
     ?>
 
     <style>
+        /* Estilo da sobreposição de carregamento */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: none; /* Inicialmente escondido */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Fica acima de outros elementos */
+        }
+        .loading-text {
+            font-size: 20px;
+            color: #333;
+        }
         .pagination {
             display: flex;
             justify-content: end;
@@ -61,11 +77,53 @@ function escape_html($string) {
         .icon-btn:hover {
             background-color: #f0f0f0;
         }
+        .card-body {
+            padding: 20px; /* Ajuste o padding do card body */
+        }
+        .question-wrapper {
+            background-color: #f8f9fa; /* Cinza claro */
+            padding: 15px; /* Espaçamento interno */
+            border-radius: 5px; /* Cantos arredondados */
+            margin-bottom: 15px; /* Espaçamento entre perguntas */
+            margin-left: 15px;
+            width: calc(100% - 30px); /* Largura total menos as margens */
+            box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
+        }
+        .modal-content {
+            background: #fff;
+        }
+        .modal-header {
+            background: #fff;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .modal-title {
+            font-weight: 600;
+        }
+        .modal-body {
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .img-fluid {
+            max-height: 80vh; /* Ajuste o valor conforme necessário */
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
 <div id="global-loader">
     <div class="whirly-loader"></div>
+</div>
+
+<div id="loadingOverlay">
+    <div class="loading-text">Carregando...</div>
 </div>
 
 <div class="main-wrapper">
@@ -92,7 +150,6 @@ function escape_html($string) {
                         <!-- Campo CSRF Token -->
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '', ENT_QUOTES, 'UTF-8'); ?>">
 
-
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-12">
                                 <div class="form-group">
@@ -100,7 +157,6 @@ function escape_html($string) {
                                     <input type="text" id="invnum" name="invnum" class="form-control">
                                 </div>
                             </div>
-
 
                             <div class="col-lg-12">
                                 <div class="form-group d-flex justify-content-end">
@@ -117,7 +173,6 @@ function escape_html($string) {
                     <form id="epiForm" enctype="multipart/form-data">
                         <!-- Campo CSRF Token -->
                         <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : '', ENT_QUOTES, 'UTF-8'); ?>">
-
 
                         <div class="row">
                             <div class="col-lg-4 col-sm-4 col-12">
@@ -208,150 +263,60 @@ function escape_html($string) {
                 </div>
             </div>
 
-            <style>
-    .card-body {
-        padding: 20px; /* Ajuste o padding do card body */
-    }
+            <!-- Formulário de Auditoria -->
+            <div class="card">
+                <div class="card-body">
+                    <h4>Auditoria de Veículo</h4>
+                    <form id="auditoriaForm">
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
+                                <div class="form-group">
+                                    <label>1. O veículo está em boas condições de funcionamento?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="q1" value="sim" id="q1-sim">
+                                        <label class="form-check-label" for="q1-sim">Sim</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="q1" value="nao" id="q1-nao">
+                                        <label class="form-check-label" for="q1-nao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
 
-    .question-wrapper {
-        background-color: #f8f9fa; /* Cinza claro */
-        padding: 15px; /* Espaçamento interno */
-        border-radius: 5px; /* Cantos arredondados */
-        margin-bottom: 15px; /* Espaçamento entre perguntas */
-        margin-left: 15px;
-        width: calc(100% - 30px); /* Largura total menos as margens */
-        box-sizing: border-box; /* Inclui padding e border no cálculo da largura */
-    }
-</style>
+                            <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
+                                <div class="form-group">
+                                    <label>2. O veículo possui todos os documentos necessários?</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="q2" value="sim" id="q2-sim">
+                                        <label class="form-check-label" for="q2-sim">Sim</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="q2" value="nao" id="q2-nao">
+                                        <label class="form-check-label" for="q2-nao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
 
-<div class="card">
-    <div class="card-body">
-        <h4>Auditoria de Veículo</h4>
-        <form id="auditoriaForm">
-            <div class="row">
-                <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
-                    <div class="form-group">
-                        <label>1. O veículo está em boas condições de funcionamento?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q1" value="sim" id="q1-sim">
-                            <label class="form-check-label" for="q1-sim">Sim</label>
+                            <div class="col-lg-12">
+                                <div class="form-group d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Enviar Auditoria</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q1" value="nao" id="q1-nao">
-                            <label class="form-check-label" for="q1-nao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
-                    <div class="form-group">
-                        <label>2. O veículo possui a documentação em dia?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q2" value="sim" id="q2-sim">
-                            <label class="form-check-label" for="q2-sim">Sim</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q2" value="nao" id="q2-nao">
-                            <label class="form-check-label" for="q2-nao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
-                    <div class="form-group">
-                        <label>3. O veículo possui seguro ativo?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q3" value="sim" id="q3-sim">
-                            <label class="form-check-label" for="q3-sim">Sim</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q3" value="nao" id="q3-nao">
-                            <label class="form-check-label" for="q3-nao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
-                    <div class="form-group">
-                        <label>4. O veículo foi inspecionado recentemente?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q4" value="sim" id="q4-sim">
-                            <label class="form-check-label" for="q4-sim">Sim</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q4" value="nao" id="q4-nao">
-                            <label class="form-check-label" for="q4-nao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
-                    <div class="form-group">
-                        <label>5. O veículo apresenta algum dano visível?</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q5" value="sim" id="q5-sim">
-                            <label class="form-check-label" for="q5-sim">Sim</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q5" value="nao" id="q5-nao">
-                            <label class="form-check-label" for="q5-nao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-12">
-                    <div class="form-group d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary">Enviar Auditoria</button>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </form>
-    </div>
-</div>
-
-
-
 
         </div>
     </div>
 </div>
 
-<!-- Adicionar o estilo CSS -->
-<style>
-    .modal-content {
-        background: #fff;
-    }
-    .modal-header {
-        background: #fff;
-        border-bottom: 1px solid #dee2e6;
-    }
-    .modal-title {
-        font-weight: 600;
-    }
-    .modal-body {
-        text-align: center;
-    }
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        color: white;
-    }
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
-    }
-    .img-fluid {
-        max-height: 80vh; /* Ajuste o valor conforme necessário */
-        object-fit: contain;
-    }
-</style>
-        
 <?php
     include 'Configuracoes/scriptsgerais.php';
 ?>
 
 <script>
-function pesquisar() {
+function pesquisar(event) {
     event.preventDefault(); // Impede o envio do formulário
     document.getElementById('loadingOverlay').style.display = 'flex'; // Mostra a sobreposição
 
@@ -392,9 +357,6 @@ function pesquisar() {
     });
 }
 </script>
-
-
-
 
 </body>
 </html>
