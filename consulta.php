@@ -1,8 +1,5 @@
 <?php
-$url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync';
-
-// Verifica se o número da nota foi enviado via POST
-$invnum = isset($_POST['invnum']) ? $_POST['invnum'] : '8802889342'; // Valor padrão se não houver entrada
+$url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160590/run/sync?Content-Type=application%2Fjson&Accept=text%2Fcsv';
 
 $data = array(
     'myQuery' => ["WITH nota_carreta AS (
@@ -41,7 +38,7 @@ LEFT JOIN
 LEFT JOIN 
     nota_carreta ntc ON ntc.TRLR_ID = tr.trlr_id
 WHERE
-    rci.invnum = '{$invnum}'"],
+    rci.invnum = '8802889342'"],
     'body' => ['']
 );
 
@@ -52,53 +49,43 @@ $credenciaisBase64 = base64_encode($credenciais);
 
 $headers = array(
     'Authorization: Basic ' . $credenciaisBase64,
-    'Content-Type: application/json',
-    'Accept: text/csv'
+    'Content-Type: application/json'
 );
 
+// Configurar o contexto HTTP com a requisição POST
 $options = array(
     'http' => array(
         'header'  => $headers,
         'method'  => 'POST',
-        'content' => json_encode($data),
-        'ignore_errors' => true,
+        'content' => json_encode($data), // Converte o array de dados para JSON
+        'ignore_errors' => true, // Isso permite capturar respostas de erro (por exemplo, 400 ou 500)
     )
 );
 
 $context = stream_context_create($options);
 
+// Fazer a requisição HTTP
 $response = file_get_contents($url, false, $context);
 
 if ($response === FALSE) {
-    echo json_encode(['error' => 'Erro na requisição']);
+    // Tratar o erro
+    echo "Erro na requisição";
 } else {
-    // Converter CSV para JSON e retornar as colunas necessárias
-    $lines = explode(PHP_EOL, $response);
-    $header = str_getcsv(array_shift($lines));
+    // Exibir a resposta
+    // Converter a resposta CSV em um array
+    $lines = explode("\n", trim($response));
+    $header = str_getcsv(array_shift($lines)); // Obter cabeçalho
     $result = [];
 
     foreach ($lines as $line) {
         if (!empty($line)) {
-            $row = array_combine($header, str_getcsv($line));
-            // Adiciona as colunas desejadas ao resultado
-            $result[] = [
-                'trlr_num' => $row['TRLR_NUM'] ?? '',
-                'invnum' => $row['INVNUM'] ?? '',
-                'trlr_broker' => $row['TRLR_BROKER'] ?? '',
-                'driver_nam' => $row['DRIVER_NAM'] ?? '',
-                'DRIVER_LIC_NUM' => $row['DRIVER_LIC_NUM'] ?? '',
-                'trlr_typ' => $row['TRLR_TYP'] ?? '',
-                'NOTTXT' => $row['NOTTXT'] ?? '',
-                'YARD_LOC' => $row['YARD_LOC'] ?? '',
-                'TRACTOR_NUM' => $row['TRACTOR_NUM'] ?? '',
-                'TRLR_SEAL1' => $row['TRLR_SEAL1'] ?? '',
-                'TRLR_SEAL2' => $row['TRLR_SEAL2'] ?? '',
-                'TRLR_SEAL3' => $row['TRLR_SEAL3'] ?? ''
-            ];
+            $row = str_getcsv($line);
+            $result[] = array_combine($header, $row);
         }
     }
 
-    // Exibir a resposta em formato JSON
-    echo json_encode($result);
+    // Converter o array resultante em JSON
+    $json_result = json_encode($result);
+    echo $json_result;
 }
 ?>
