@@ -32,7 +32,7 @@ left join trlr tr on tr.trlr_id = rct.trlr_id
 left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat' and dsts.locale_id = 'US_ENGLISH'
  
 where
-rcl.invnum = '8802889342'"],
+rcl.invnum = '$invnum'"],
     'body' => ['']
 );
 
@@ -63,12 +63,18 @@ $response = file_get_contents($url, false, $context);
 if ($response === FALSE) {
     echo json_encode(['error' => 'Erro na requisição']);
 } else {
-    // Converter CSV para JSON e retornar as colunas necessárias
-    $lines = explode(PHP_EOL, $response);
+    // Converter CSV para JSON
+    $lines = explode(PHP_EOL, trim($response));
     $header = str_getcsv(array_shift($lines));
     $result = [];
 
-    
+    foreach ($lines as $line) {
+        if (empty(trim($line))) {
+            continue; // Ignorar linhas vazias
+        }
+        $data = str_getcsv($line);
+        $result[] = array_combine($header, $data);
+    }
 
     // Exibir a resposta em formato JSON
     echo json_encode($result);
