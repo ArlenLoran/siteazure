@@ -310,7 +310,7 @@ $(document).ready(function() {
 
         const table = $('#userTable').DataTable({
             paging: true,
-            searching: true, // Altere para true para habilitar a busca
+            searching: false, // Mantenha como false para esconder a busca padrão
             info: true,
             lengthChange: false,
             pageLength: 10,
@@ -323,7 +323,6 @@ $(document).ready(function() {
                 lengthMenu: "Mostrar _MENU_ registros por página",
                 zeroRecords: "Nenhum registro encontrado",
                 emptyTable: "Nenhum dado disponível na tabela",
-                search: "Buscar:",
                 infoEmpty: "Mostrando 0 a 0 de 0 registros",
                 infoFiltered: "(filtrado de _MAX_ registros totais)"
             }
@@ -376,6 +375,7 @@ $(document).ready(function() {
     loadTableData();
 });
 </script>
+
 
 </body>
 </html>
