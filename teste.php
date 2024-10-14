@@ -308,9 +308,9 @@ $(document).ready(function() {
             $('#userTable').DataTable().destroy();
         }
 
-        $('#userTable').DataTable({
+        const table = $('#userTable').DataTable({
             paging: true,
-            searching: true,
+            searching: true, // Altere para true para habilitar a busca
             info: true,
             lengthChange: false,
             pageLength: 10,
@@ -327,6 +327,11 @@ $(document).ready(function() {
                 infoEmpty: "Mostrando 0 a 0 de 0 registros",
                 infoFiltered: "(filtrado de _MAX_ registros totais)"
             }
+        });
+
+        // Evento de busca customizado
+        $('#global_search').on('keyup', function() {
+            table.search(this.value).draw(); // Filtra a tabela com base no valor do campo de busca
         });
     }
 
@@ -371,5 +376,6 @@ $(document).ready(function() {
     loadTableData();
 });
 </script>
+
 </body>
 </html>
