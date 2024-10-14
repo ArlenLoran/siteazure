@@ -302,74 +302,43 @@
 <script src="assets/js/script.js"></script>
 <script>
 $(document).ready(function() {
-    let currentPage = 1;
-    const itemsPerPage = 10; // Número de itens por página
-    let totalItems = 0; // Total de itens na tabela
-
-    function loadTableData(page) {
-        $('#global-loader').show();
-
+    // Função para buscar os dados via AJAX
+    function loadTableData() {
         $.ajax({
             url: 'tabela.php', // URL do seu arquivo PHP
-            type: 'POST',
-            dataType: 'json',
-            data: { page: page, itemsPerPage: itemsPerPage }, // Envia informações de paginação
+            type: 'POST', // Método HTTP
+            dataType: 'json', // Tipo de dado esperado
             success: function(data) {
-                totalItems = data.totalItems; // Total de itens retornados do servidor
+                // Limpa o corpo da tabela
                 $('tbody').empty();
 
-                $.each(data.items, function(index, row) {
+                // Preenche a tabela com os dados recebidos
+                $.each(data, function(index, row) {
                     $('tbody').append(
                         '<tr>' +
                         '<td><label class="checkboxs"><input type="checkbox"><span class="checkmarks"></span></label></td>' +
-                        '<td>' + row.LODNUM + '</td>' +
-                        '<td>' + row.STOLOC + '</td>' +
-                        '<td>' + row.LOTNUM + '</td>' +
-                        '<td>' + row.RCVQTY + '</td>' +
-                        '<td>' + row.RCVSTS + '</td>' +
-                        '<td>' + row.EXPIRE_DTE + '</td>' +
-                        '<td><a href="#" class="btn btn-info">Ver Detalhes</a></td>' +
+                        '<td>' + row.LODNUM + '</td>' + // LPN
+                        '<td>' + row.STOLOC + '</td>' + // Local
+                        '<td>' + row.LOTNUM + '</td>' + // Lote
+                        '<td>' + row.RCVQTY + '</td>' + // Quantidade
+                        '<td>' + row.RCVSTS + '</td>' + // Status Rec
+                        '<td>' + row.EXPIRE_DTE + '</td>' + // Data de venc
+                        '<td><a href="#" class="btn btn-info">Ver Detalhes</a></td>' + // Detalhes
                         '</tr>'
                     );
                 });
-
-                // Atualiza a paginação
-                updatePagination();
             },
             error: function(xhr, status, error) {
                 console.error('Erro na requisição: ' + error);
-            },
-            complete: function() {
-                $('#global-loader').hide();
             }
         });
     }
 
-    function updatePagination() {
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        const paginationContainer = $('.pagination');
-        paginationContainer.empty();
-
-        for (let i = 1; i <= totalPages; i++) {
-            const pageItem = $('<li>').addClass('page-item').append(
-                $('<a>').addClass('page-link').text(i).on('click', function() {
-                    currentPage = i;
-                    loadTableData(currentPage);
-                })
-            );
-            paginationContainer.append(pageItem);
-        }
-    }
-
     // Chama a função para carregar os dados quando a página carrega
-    loadTableData(currentPage);
+    loadTableData();
 });
-</script>
-
-
-
-
-    
-
+</script> quero que esse load global, fique carregando até a resposta ser recebida:<div id="global-loader">
+    <div class="whirly-loader"></div>
+</div>
 </body>
 </html>
