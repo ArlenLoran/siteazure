@@ -302,19 +302,15 @@
 <script src="assets/js/script.js"></script>
 <script>
 $(document).ready(function() {
-    // Função para buscar os dados via AJAX
-    function loadTableData() {
-        // Mostra o loader
-        $('#global-loader').show();
-
-        function inicializarDataTable() {
-        if ($.fn.DataTable.isDataTable('#table')) {
-            $('#table').DataTable().destroy();
+    // Função para inicializar o DataTable
+    function inicializarDataTable() {
+        if ($.fn.DataTable.isDataTable('#userTable')) {
+            $('#userTable').DataTable().destroy();
         }
 
-        $('#table').DataTable({
+        $('#userTable').DataTable({
             paging: true,
-            searching: false, // Desabilita a pesquisa interna do DataTable
+            searching: false,
             info: true,
             lengthChange: false,
             pageLength: 10,
@@ -334,35 +330,38 @@ $(document).ready(function() {
         });
     }
 
+    // Função para buscar os dados via AJAX
+    function loadTableData() {
+        $('#global-loader').show();
+
         $.ajax({
             url: 'tabela.php', // URL do seu arquivo PHP
-            type: 'POST', // Método HTTP
-            dataType: 'json', // Tipo de dado esperado
+            type: 'POST',
+            dataType: 'json',
             success: function(data) {
-                // Limpa o corpo da tabela
                 $('tbody').empty();
 
-                // Preenche a tabela com os dados recebidos
                 $.each(data, function(index, row) {
                     $('tbody').append(
                         '<tr>' +
                         '<td><label class="checkboxs"><input type="checkbox"><span class="checkmarks"></span></label></td>' +
-                        '<td>' + row.LODNUM + '</td>' + // LPN
-                        '<td>' + row.STOLOC + '</td>' + // Local
-                        '<td>' + row.LOTNUM + '</td>' + // Lote
-                        '<td>' + row.RCVQTY + '</td>' + // Quantidade
-                        '<td>' + row.RCVSTS + '</td>' + // Status Rec
-                        '<td>' + row.EXPIRE_DTE + '</td>' + // Data de venc
-                        '<td><a href="#" class="btn btn-info">Ver Detalhes</a></td>' + // Detalhes
+                        '<td>' + row.LODNUM + '</td>' +
+                        '<td>' + row.STOLOC + '</td>' +
+                        '<td>' + row.LOTNUM + '</td>' +
+                        '<td>' + row.RCVQTY + '</td>' +
+                        '<td>' + row.RCVSTS + '</td>' +
+                        '<td>' + row.EXPIRE_DTE + '</td>' +
+                        '<td><a href="#" class="btn btn-info">Ver Detalhes</a></td>' +
                         '</tr>'
                     );
                 });
+
+                inicializarDataTable(); // Inicializa o DataTable após preencher os dados
             },
             error: function(xhr, status, error) {
                 console.error('Erro na requisição: ' + error);
             },
             complete: function() {
-                // Esconde o loader após a requisição (sucesso ou erro)
                 $('#global-loader').hide();
             }
         });
