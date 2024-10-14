@@ -151,136 +151,6 @@
                     
                 </div>
             </div>
-<!-- Modal de Edição de Usuário -->
-<div class="modal fade" id="editarusuariomodal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-lg">
-            <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="editUserModalLabel">Editar Usuário</h5>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body p-4">
-                <form id="editarusuarioform" action="Telas/ScriptsUsuarios/editarusuario.php" method="POST">
-                    <input type="hidden" id="edit_user_id" name="edit_user_id">
-                    <input type="hidden" id="edit_user_admin" name="edit_user_admin">
-
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="form-group">
-                                <label for="edit_user_nome">Nome</label>
-                                <input type="text" class="form-control" id="edit_user_nome" name="edit_user_nome" required>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="form-group">
-                                <label for="edit_user_email">E-mail</label>
-                                <input type="email" class="form-control" id="edit_user_email" name="edit_user_email" required>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="form-group">
-                                <label for="edit_user_status">Status</label>
-                                <select class="form-select" id="edit_user_status" name="edit_user_status" required>
-                                    <option value="APROVADO">Aprovado</option>
-                                    <option value="REPROVADO">Reprovado</option>
-                                    <option value="PENDENTE">Pendente</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="form-group">
-                                <label for="edit_user_nivel">Nível de acesso</label>
-                                <select class="form-select" id="edit_user_nivel" name="edit_user_nivel" required>
-                                    <option value="USUÁRIO">Usuário</option>
-                                    <option value="LIDERANÇA">Liderança</option>
-                                    <option value="OMS">OMS</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6 col-sm-12">
-                            <div class="form-group">
-                                <label for="edit_user_op">Operação</label>
-                                <select class="form-select" id="edit_user_op" name="edit_user_op" required>
-                                    <option value="Embu">Embu</option>
-                                    <option value="Itupeva">Itupeva</option>
-                                    <option value="Viana">Viana</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group d-flex justify-content-end mt-4">
-                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Modal de Cadastro de Usuário -->
-<div class="modal fade" id="cadastrarusuariomodal" tabindex="-1" aria-labelledby="cadastrarUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg"> <!-- Adicionando a classe modal-lg para tornar o modal mais largo -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="cadastrarUserModalLabel">Cadastrar Usuário</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- Formulário para cadastrar usuário -->
-            <form id="cadastrarusuarioform" method="POST">
-                <div class="modal-body">
-                    <div class="row"> <!-- Usando uma row do Bootstrap para colocar dois inputs por linha -->
-                        <div class="col-md-6"> <!-- Coluna para o campo Nome -->
-                            <div class="mb-3">
-                                <label for="nomecadastro" class="form-label">Nome</label>
-                                <input type="text" class="form-control" id="nomecadastro" name="nomecadastro" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6"> <!-- Coluna para o campo E-mail -->
-                            <div class="mb-3">
-                                <label for="emailcadastro" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="emailcadastro" name="emailcadastro" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row"> <!-- Nova row para os campos de Senha -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="senhacadastro" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="senhacadastro" name="senhacadastro" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="confirmarsenhacadastro" class="form-label">Confirmar Senha</label>
-                                <input type="password" class="form-control" id="confirmarsenhacadastro" name="confirmarsenhacadastro" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="d-flex justify-content-end w-100"> <!-- Div para alinhar botões à direita -->
-                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" id="botaocadastrar" class="btn btn-primary">Cadastrar Usuário</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-
         </div>
     </div>
     <!-- /Page Wrapper -->
@@ -362,7 +232,16 @@ $(document).ready(function() {
                         '<td>' + row.RCVQTY + '</td>' +
                         '<td>' + row.RCVSTS + '</td>' +
                         '<td>' + row.EXPIRE_DTE + '</td>' +
-                        '<td><a href="#" class="btn btn-info">Ver Detalhes</a></td>' +
+                        '<td class="text-center"> +
+        '<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">' +
+            '<i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
+        '</a>' +
+        '<div class="dropdown-menu">' +
+            '<a href="javascript:void(0);" class="dropdown-item">' +
+                '<i class="si si-user me-2" style="font-size: 20px;"></i>Adicionar comentário' +
+            '</a>' +
+        '</div>' +
+    '</td>' +
                         '</tr>'
                     );
                 });
