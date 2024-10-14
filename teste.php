@@ -187,7 +187,7 @@ $(document).ready(function() {
 
         const table = $('#userTable').DataTable({
             paging: true,
-            searching: true, // Mantenha como true para permitir busca
+            searching: true,
             info: true,
             lengthChange: false,
             pageLength: 10,
@@ -207,7 +207,7 @@ $(document).ready(function() {
 
         // Evento de busca customizado
         $('#global_search').on('keyup', function() {
-            table.search(this.value).draw(); // Filtra a tabela com base no valor do campo de busca
+            table.search(this.value).draw();
         });
     }
 
@@ -216,7 +216,7 @@ $(document).ready(function() {
         $('#global-loader').show();
 
         $.ajax({
-            url: 'tabela.php', // URL do seu arquivo PHP
+            url: 'tabela.php',
             type: 'POST',
             dataType: 'json',
             success: function(data) {
@@ -232,16 +232,16 @@ $(document).ready(function() {
                         '<td>' + row.RCVQTY + '</td>' +
                         '<td>' + row.RCVSTS + '</td>' +
                         '<td>' + row.EXPIRE_DTE + '</td>' +
-                        '<td class="text-center"> +
-        '<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">' +
-            '<i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
-        '</a>' +
-        '<div class="dropdown-menu">' +
-            '<a href="javascript:void(0);" class="dropdown-item">' +
-                '<i class="si si-user me-2" style="font-size: 20px;"></i>Adicionar comentário' +
-            '</a>' +
-        '</div>' +
-    '</td>' +
+                        '<td class="text-center">' +
+                            '<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">' +
+                                '<i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
+                            '</a>' +
+                            '<div class="dropdown-menu">' +
+                                '<a href="javascript:void(0);" class="dropdown-item">' +
+                                    '<i class="si si-user me-2" style="font-size: 20px;"></i>Adicionar comentário' +
+                                '</a>' +
+                            '</div>' +
+                        '</td>' +
                         '</tr>'
                     );
                 });
@@ -261,6 +261,7 @@ $(document).ready(function() {
     loadTableData();
 });
 </script>
+
 
 
 
