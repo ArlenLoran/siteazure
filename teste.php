@@ -180,10 +180,40 @@
 
 <script>
 $(document).ready(function() {
+    // Função para inicializar o DataTable
+    function inicializarDataTable() {
+        const table = $('#userTable').DataTable({
+            paging: true,
+            searching: true,
+            info: true,
+            lengthChange: false,
+            pageLength: 10,
+            language: {
+                paginate: {
+                    previous: "Anterior",
+                    next: "Próximo"
+                },
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "Nenhum registro encontrado",
+                emptyTable: "Nenhum dado disponível na tabela",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros totais)"
+            }
+        });
+
+        // Evento de busca customizado
+        $('#global_search').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+    }
+
     // Função para carregar dados na tabela
     function loadData() {
+        $('#global-loader').show(); // Mostra um loader, se necessário
+
         $.ajax({
-            url: 'tabela.php', // Substitua pelo caminho do seu script PHP
+            url: 'teste.php', // Substitua pelo caminho do seu script PHP
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -203,22 +233,26 @@ $(document).ready(function() {
                     tr.append('<td>' + row[6] + '</td>'); // Status Rec
                     tr.append('<td>' + row[8] + '</td>'); // Data de venc
                     tr.append('<td class="text-center">' +
-                            '<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">' +
-                                '<i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
+                        '<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">' +
+                            '<i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
+                        '</a>' +
+                        '<div class="dropdown-menu">' +
+                            '<a href="javascript:void(0);" class="dropdown-item">' +
+                                '<i class="si si-user me-2" style="font-size: 20px;"></i>Adicionar comentário' +
                             '</a>' +
-                            '<div class="dropdown-menu">' +
-                                '<a href="javascript:void(0);" class="dropdown-item">' +
-                                    '<i class="si si-user me-2" style="font-size: 20px;"></i>Adicionar comentário' +
-                                '</a>' +
-                            '</div>' +
-                        '</td>' +
-                        '</tr>'); // Botão de detalhes
+                        '</div>' +
+                    '</td>'); // Botão de detalhes
 
                     tbody.append(tr);
                 });
+
+                inicializarDataTable(); // Inicializa o DataTable após preencher os dados
             },
             error: function(xhr, status, error) {
                 console.error("Erro ao carregar os dados: " + error);
+            },
+            complete: function() {
+                $('#global-loader').hide(); // Esconde o loader
             }
         });
     }
@@ -227,6 +261,7 @@ $(document).ready(function() {
     loadData();
 });
 </script>
+
 
 
 
