@@ -4,35 +4,39 @@ $url = 'https://score-msc.mysupplychain.dhl.com/score_msc/external/V1/report/160
 // Verifica se o número da nota foi enviado via POST
 $invnum = isset($_POST['invnum']) ? $_POST['invnum'] : '8802889342'; // Valor padrão se não houver entrada
 
+// Receber parâmetros de paginação
+$page = isset($_POST['page']) ? (int)$_POST['page'] : 1;
+$itemsPerPage = isset($_POST['itemsPerPage']) ? (int)$_POST['itemsPerPage'] : 10;
+$offset = ($page - 1) * $itemsPerPage;
+
+// Dados da consulta
 $data = array(
     'myQuery' => ["select
-ivs.lodnum,
-ivl.stoloc,
-rcl.prtnum,
-rcl.lotnum,
-rcl.rcvqty,
-'cs' uom,
-prd.LNGDSC descricao,
-rcl.rcvsts,
-ivd.expire_dte,
---peso ta faltando--
-rcl.invnum,
-SUM(rcl.rcvqty) OVER (PARTITION BY rcl.invnum, rcl.prtnum) AS total,
-rcl.supnum,
-rci.waybil, tr.trlr_num, dsts.lngdsc trlr_stat
- FROM
-rcvlin rcl
-left join invdtl ivd on rcl.rcvkey =  ivd.rcvkey
-left join invsub ivs on ivs.subnum = ivd.subnum
-left join invlod ivl on ivl.lodnum = ivs.lodnum
-left join prtdsc prd on  prd.locale_id = 'US_ENGLISH' and prd.colval = rcl.prtnum || '|RBCCID|RCKT'
-left join rcvinv rci on rci.invnum = rcl.invnum
-left join RCVtrk rct on rci.TRKNUM = rct.TRKNUM
-left join trlr tr on tr.trlr_id = rct.trlr_id
-left join dscmst dsts on dsts.colval = tr.trlr_stat and dsts.colnam = 'trlr_stat' and dsts.locale_id = 'US_ENGLISH'
- 
-where
-rcl.invnum = '$invnum'"],
+        ivs.lodnum,
+        ivl.stoloc,
+        rcl.prtnum,
+        rcl.lotnum,
+        rcl.rcvqty,
+        'cs' uom,
+        prd.LNGDSC descricao,
+        rcl.rcvsts,
+        ivd.expire_dte,
+        --peso ta faltando--
+        rcl.invnum,
+        SUM(rcl.rcvqty) OVER (PARTITION BY rcl.invnum, rcl.prtnum) AS total,
+        rcl.supnum,
+        rci.waybil, tr.trlr_num, dsts.lngdsc trlr_stat
+        FROM rcvlin rcl
+        LEFT JOIN invdtl ivd ON rcl.rcvkey = ivd.rcvkey
+        LEFT JOIN invsub ivs ON ivs.subnum = ivd.subnum
+        LEFT JOIN invlod ivl ON ivl.lodnum = ivs.lodnum
+        LEFT JOIN prtdsc prd ON prd.locale_id = 'US_ENGLISH' AND prd.colval = rcl.prtnum || '|RBCCID|RCKT'
+        LEFT JOIN rcvinv rci ON rci.invnum = rcl.invnum
+        LEFT JOIN RCVtrk rct ON rci.TRKNUM = rct.TRKNUM
+        LEFT JOIN trlr tr ON tr.trlr_id = rct.trlr_id
+        LEFT JOIN dscmst dsts ON dsts.colval = tr.trlr_stat AND dsts.colnam = 'trlr_stat' AND dsts.locale_id = 'US_ENGLISH'
+        WHERE rcl.invnum = '$invnum'
+        LIMIT $itemsPerPage OFFSET $offset"],
     'body' => ['']
 );
 
@@ -76,7 +80,14 @@ if ($response === FALSE) {
         $result[] = array_combine($header, $data);
     }
 
+    // Query para contar o total de itens
+    $countQuery = "SELECT COUNT(*) as total FROM rcvlin WHERE invnum = '$invnum'";
+    
+    // Executar a consulta de contagem
+    $countResult = mysqli_query($con, $countQuery);
+    $totalItems = mysqli_fetch_assoc($countResult)['total'];
+
     // Exibir a resposta em formato JSON
-    echo json_encode($result);
+    echo json_encode(['items' => $result, 'totalItems' => $totalItems]);
 }
 ?>
