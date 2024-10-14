@@ -304,6 +304,9 @@
 $(document).ready(function() {
     // Função para buscar os dados via AJAX
     function loadTableData() {
+        // Mostra o loader
+        $('#global-loader').show();
+
         $.ajax({
             url: 'tabela.php', // URL do seu arquivo PHP
             type: 'POST', // Método HTTP
@@ -330,6 +333,10 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error('Erro na requisição: ' + error);
+            },
+            complete: function() {
+                // Esconde o loader após a requisição (sucesso ou erro)
+                $('#global-loader').hide();
             }
         });
     }
@@ -338,6 +345,7 @@ $(document).ready(function() {
     loadTableData();
 });
 </script>
+
 
 
     
