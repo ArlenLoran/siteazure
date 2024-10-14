@@ -304,6 +304,9 @@
 $(document).ready(function() {
     // Função para buscar os dados via AJAX
     function loadTableData() {
+        // Mostra o loader
+        $('#global-loader').show();
+
         $.ajax({
             url: 'tabela.php', // URL do seu arquivo PHP
             type: 'POST', // Método HTTP
@@ -330,6 +333,10 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error('Erro na requisição: ' + error);
+            },
+            complete: function() {
+                // Esconde o loader após a requisição (sucesso ou erro)
+                $('#global-loader').hide();
             }
         });
     }
@@ -337,8 +344,6 @@ $(document).ready(function() {
     // Chama a função para carregar os dados quando a página carrega
     loadTableData();
 });
-</script> quero que esse load global, fique carregando até a resposta ser recebida:<div id="global-loader">
-    <div class="whirly-loader"></div>
-</div>
+</script>
 </body>
 </html>
