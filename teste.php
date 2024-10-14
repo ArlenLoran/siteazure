@@ -307,6 +307,33 @@ $(document).ready(function() {
         // Mostra o loader
         $('#global-loader').show();
 
+        function inicializarDataTable() {
+        if ($.fn.DataTable.isDataTable('#table')) {
+            $('#table').DataTable().destroy();
+        }
+
+        $('#table').DataTable({
+            paging: true,
+            searching: false, // Desabilita a pesquisa interna do DataTable
+            info: true,
+            lengthChange: false,
+            pageLength: 10,
+            language: {
+                paginate: {
+                    previous: "Anterior",
+                    next: "Próximo"
+                },
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "Nenhum registro encontrado",
+                emptyTable: "Nenhum dado disponível na tabela",
+                search: "Buscar:",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros totais)"
+            }
+        });
+    }
+
         $.ajax({
             url: 'tabela.php', // URL do seu arquivo PHP
             type: 'POST', // Método HTTP
