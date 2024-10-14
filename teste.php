@@ -127,6 +127,7 @@
                                     </label>
                                     </th>
                                     <th>LPN</th>
+                                    <th>SKU</th>
                                     <th>Local</th>
                                     <th>Lote</th>
                                     <th>Quantidade</th>
@@ -227,6 +228,7 @@ $(document).ready(function() {
                         '<tr>' +
                         '<td><label class="checkboxs"><input type="checkbox"><span class="checkmarks"></span></label></td>' +
                         '<td>' + row.LODNUM + '</td>' +
+                        '<td>' + row.PRTNUM + '</td>' +
                         '<td>' + row.STOLOC + '</td>' +
                         '<td>' + row.LOTNUM + '</td>' +
                         '<td>' + row.RCVQTY + '</td>' +
