@@ -310,7 +310,7 @@ $(document).ready(function() {
 
         $('#userTable').DataTable({
             paging: true,
-            searching: false,
+            searching: true,
             info: true,
             lengthChange: false,
             pageLength: 10,
