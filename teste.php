@@ -6,7 +6,7 @@
 <head>
     <?php
         include 'Configuracoes/headgerais.php';
-        renderHead("Relatório de inventário recebido");
+        renderHead("Usuários");
     ?>
 
 <style>
@@ -43,8 +43,8 @@
         <div class="content">
             <div class="page-header">
                 <div class="page-title">
-                    <h4>Auditoria</h4>
-                    <h6>Relatório de inventário recebido</h6>
+                    <h4>Lista de Usuários</h4>
+                    <h6>Gerenciamento de usuários cadastrados</h6>
                 </div>
                 <!--
                 <div class="page-btn">
@@ -127,7 +127,6 @@
                                     </label>
                                     </th>
                                     <th>LPN</th>
-                                    <th>SKU</th>
                                     <th>Local</th>
                                     <th>Lote</th>
                                     <th>Quantidade</th>
@@ -178,63 +177,32 @@
 <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <script src="assets/js/script.js"></script>
+
 <script>
 $(document).ready(function() {
-    // Função para inicializar o DataTable
-    function inicializarDataTable() {
-        if ($.fn.DataTable.isDataTable('#userTable')) {
-            $('#userTable').DataTable().destroy();
-        }
-
-        const table = $('#userTable').DataTable({
-            paging: true,
-            searching: true,
-            info: true,
-            lengthChange: false,
-            pageLength: 10,
-            language: {
-                paginate: {
-                    previous: "Anterior",
-                    next: "Próximo"
-                },
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                lengthMenu: "Mostrar _MENU_ registros por página",
-                zeroRecords: "Nenhum registro encontrado",
-                emptyTable: "Nenhum dado disponível na tabela",
-                infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                infoFiltered: "(filtrado de _MAX_ registros totais)"
-            }
-        });
-
-        // Evento de busca customizado
-        $('#global_search').on('keyup', function() {
-            table.search(this.value).draw();
-        });
-    }
-
-    // Função para buscar os dados via AJAX
-    function loadTableData() {
-        $('#global-loader').show();
-
+    // Função para carregar dados na tabela
+    function loadData() {
         $.ajax({
-            url: 'tabela.php',
-            type: 'POST',
+            url: 'tabela.php', // Substitua pelo caminho do seu script PHP
+            method: 'GET',
             dataType: 'json',
             success: function(data) {
-                $('tbody').empty();
+                var tbody = $('#userTable tbody');
+                tbody.empty(); // Limpa a tabela antes de adicionar novos dados
 
+                // Adiciona os dados recebidos à tabela
                 $.each(data, function(index, row) {
-                    $('tbody').append(
-                        '<tr>' +
-                        '<td><label class="checkboxs"><input type="checkbox"><span class="checkmarks"></span></label></td>' +
-                        '<td>' + row.LODNUM + '</td>' +
-                        '<td>' + row.PRTNUM + '</td>' +
-                        '<td>' + row.STOLOC + '</td>' +
-                        '<td>' + row.LOTNUM + '</td>' +
-                        '<td>' + row.RCVQTY + '</td>' +
-                        '<td>' + row.RCVSTS + '</td>' +
-                        '<td>' + row.EXPIRE_DTE + '</td>' +
-                        '<td class="text-center">' +
+                    if (index === 0) return; // Ignora a primeira linha (cabeçalho)
+
+                    var tr = $('<tr></tr>');
+                    tr.append('<td><label class="checkboxs"><input type="checkbox"><span class="checkmarks"></span></label></td>');
+                    tr.append('<td>' + row[0] + '</td>'); // LPN
+                    tr.append('<td>' + row[1] + '</td>'); // Local
+                    tr.append('<td>' + row[2] + '</td>'); // Lote
+                    tr.append('<td>' + row[3] + '</td>'); // Quantidade
+                    tr.append('<td>' + row[6] + '</td>'); // Status Rec
+                    tr.append('<td>' + row[8] + '</td>'); // Data de venc
+                    tr.append('<td class="text-center">' +
                             '<a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">' +
                                 '<i class="fa fa-ellipsis-v" aria-hidden="true"></i>' +
                             '</a>' +
@@ -244,25 +212,22 @@ $(document).ready(function() {
                                 '</a>' +
                             '</div>' +
                         '</td>' +
-                        '</tr>'
-                    );
-                });
+                        '</tr>'); // Botão de detalhes
 
-                inicializarDataTable(); // Inicializa o DataTable após preencher os dados
+                    tbody.append(tr);
+                });
             },
             error: function(xhr, status, error) {
-                console.error('Erro na requisição: ' + error);
-            },
-            complete: function() {
-                $('#global-loader').hide();
+                console.error("Erro ao carregar os dados: " + error);
             }
         });
     }
 
-    // Chama a função para carregar os dados quando a página carrega
-    loadTableData();
+    // Carregar os dados na tabela ao iniciar a página
+    loadData();
 });
 </script>
+
 
 
 
