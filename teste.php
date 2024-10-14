@@ -6,7 +6,7 @@
 <head>
     <?php
         include 'Configuracoes/headgerais.php';
-        renderHead("Usuários");
+        renderHead("Relatório de inventário recebido");
     ?>
 
 <style>
@@ -43,8 +43,8 @@
         <div class="content">
             <div class="page-header">
                 <div class="page-title">
-                    <h4>Lista de Usuários</h4>
-                    <h6>Gerenciamento de usuários cadastrados</h6>
+                    <h4>Auditoria</h4>
+                    <h6>Relatório de inventário recebido</h6>
                 </div>
                 <!--
                 <div class="page-btn">
