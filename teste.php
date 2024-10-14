@@ -16,6 +16,13 @@
             margin-top: 20px; /* Espaço entre a paginação e a tabela */
         }
     </style>
+
+    <style>
+.dataTables_filter {
+    display: none; /* Oculta o campo de busca padrão do DataTable */
+}
+</style>
+
 </head>
 <body>
 <div id="global-loader">
@@ -310,7 +317,7 @@ $(document).ready(function() {
 
         const table = $('#userTable').DataTable({
             paging: true,
-            searching: false, // Mantenha como false para esconder a busca padrão
+            searching: true, // Mantenha como true para permitir busca
             info: true,
             lengthChange: false,
             pageLength: 10,
@@ -375,6 +382,7 @@ $(document).ready(function() {
     loadTableData();
 });
 </script>
+
 
 
 </body>
