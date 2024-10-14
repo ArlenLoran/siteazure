@@ -213,7 +213,7 @@ $(document).ready(function() {
         $('#global-loader').show(); // Mostra um loader, se necessário
 
         $.ajax({
-            url: 'teste.php', // Substitua pelo caminho do seu script PHP
+            url: 'tabela.php', // Substitua pelo caminho do seu script PHP
             method: 'GET',
             dataType: 'json',
             success: function(data) {
