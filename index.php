@@ -236,7 +236,7 @@ function escape_html($string) {
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>1. O veículo está em boas condições de funcionamento?</label>
+                        <label>1. O veículo está calçado corretamente?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="q1" value="sim" id="q1-sim">
                             <label class="form-check-label" for="q1-sim">Sim</label>
@@ -250,7 +250,7 @@ function escape_html($string) {
 
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>2. O veículo possui a documentação em dia?</label>
+                        <label>2. O motorista entregou a chave do veículo?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="q2" value="sim" id="q2-sim">
                             <label class="form-check-label" for="q2-sim">Sim</label>
@@ -264,7 +264,7 @@ function escape_html($string) {
 
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>3. O veículo possui seguro ativo?</label>
+                        <label>3. O veículo está com mal cheiro?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="q3" value="sim" id="q3-sim">
                             <label class="form-check-label" for="q3-sim">Sim</label>
@@ -275,31 +275,154 @@ function escape_html($string) {
                         </div>
                     </div>
                 </div>
+            </div>
+        </form>
+    </div>
+</div>
 
+<!-- User Table -->
+<div class="card">
+                <div class="card-body">
+                    <div class="table-top">
+                        <div class="search-set">
+                            <div class="search-path">
+                                <a class="btn btn-filter" id="filter_search">
+                                    <img src="assets/img/icons/filter.svg" alt="img">
+                                    <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                                </a>
+                            </div>
+                            <div>
+                                <input type="text" class="form-control" id="global_search" placeholder="Buscar na tabela...">
+                            </div>
+                        </div>
+                        <div class="wordset">
+                            <ul>
+                                <li>
+                                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+                                </li>
+                                <li>
+                                    <a id="excelButton" data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+                                </li>
+                                <li>
+                                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card" id="filter_inputs">
+                        <div class="card-body pb-0">
+                            <div class="row">
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" id="filter_nome" placeholder="Digite o nome">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" id="filter_email" placeholder="Digite o e-mail">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" id="filter_status" placeholder="Digite o status">
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <input type="text" id="filter_data_criacao" class="datetimepicker cal-icon" placeholder="Escolha a data de criação">
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-sm-6 col-12 ms-auto">
+                                    <div class="form-group">
+                                        <a class="btn btn-filters ms-auto" id="apply_filters"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                    <label class="checkboxs">
+                                    <input type="checkbox">
+                                    <span class="checkmarks"></span>
+                                    </label>
+                                    </th>
+                                    <th>LPN</th>
+                                    <th>SKU</th>
+                                    <th>Local</th>
+                                    <th>Lote</th>
+                                    <th>Quantidade</th>
+                                    <th>Status Rec</th>
+                                    <th>Data de venc</th>
+                                    <th>Detalhes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+</tbody>
+
+                        </table>
+                    </div>
+
+                    <!-- Paginação -->
+                    <div class="pagination-container">
+                    <ul class="pagination">
+                            <!-- Links de página serão adicionados dinamicamente -->
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+
+
+            <div class="card">
+    <div class="card-body">
+        <h4>Auditoria de Veículo</h4>
+        <form id="auditoriaForm">
+            <div class="row">
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>4. O veículo foi inspecionado recentemente?</label>
+                        <label>1. O veículo está calçado corretamente?</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q4" value="sim" id="q4-sim">
-                            <label class="form-check-label" for="q4-sim">Sim</label>
+                            <input class="form-check-input" type="radio" name="q1" value="sim" id="q1-sim">
+                            <label class="form-check-label" for="q1-sim">Sim</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q4" value="nao" id="q4-nao">
-                            <label class="form-check-label" for="q4-nao">Não</label>
+                            <input class="form-check-input" type="radio" name="q1" value="nao" id="q1-nao">
+                            <label class="form-check-label" for="q1-nao">Não</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>5. O veículo apresenta algum dano visível?</label>
+                        <label>2. O motorista entregou a chave do veículo?</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q5" value="sim" id="q5-sim">
-                            <label class="form-check-label" for="q5-sim">Sim</label>
+                            <input class="form-check-input" type="radio" name="q2" value="sim" id="q2-sim">
+                            <label class="form-check-label" for="q2-sim">Sim</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="q5" value="nao" id="q5-nao">
-                            <label class="form-check-label" for="q5-nao">Não</label>
+                            <input class="form-check-input" type="radio" name="q2" value="nao" id="q2-nao">
+                            <label class="form-check-label" for="q2-nao">Não</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
+                    <div class="form-group">
+                        <label>3. O veículo está com mal cheiro?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q3" value="sim" id="q3-sim">
+                            <label class="form-check-label" for="q3-sim">Sim</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q3" value="nao" id="q3-nao">
+                            <label class="form-check-label" for="q3-nao">Não</label>
                         </div>
                     </div>
                 </div>
@@ -404,3 +527,144 @@ function pesquisar() {
 
 </script>
 
+<script>
+$(document).ready(function() {
+    // Função para inicializar o DataTable
+    function inicializarDataTable() {
+        const table = $('#userTable').DataTable({
+            paging: false,
+            searching: true,
+            info: true,
+            lengthChange: false,
+            pageLength: 10,
+            language: {
+                paginate: {
+                    previous: "Anterior",
+                    next: "Próximo"
+                },
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                lengthMenu: "Mostrar _MENU_ registros por página",
+                zeroRecords: "Nenhum registro encontrado",
+                emptyTable: "Nenhum dado disponível na tabela",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros totais)"
+            }
+        });
+
+        // Evento de busca customizado
+        $('#global_search').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+    }
+
+    // Função para carregar dados na tabela
+    function loadData() {
+    $('#global-loader').show();
+
+    $.ajax({
+        url: 'teste.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            var tbody = $('#userTable tbody');
+            tbody.empty();
+
+            let currentSKU = null;
+            let totalExpected = 0;
+            let totalReceived = 0;
+            let description = '';
+
+            $.each(data, function(index, row) {
+                if (index === 0) return; // Ignora a primeira linha (cabeçalho)
+
+                const sku = row[1]; // SKU
+                const quantidade = parseInt(row[4]); // QUANTIDADE
+                const status = row[5]; // STATUS
+                const local = row[2]; // LOCAL
+                const lote = row[3]; // LOTE
+                const dataVencimento = row[6]; // DATA VENCIMENTO
+                
+                // Se mudamos de SKU, adicionamos a linha de totais
+                if (currentSKU && currentSKU !== sku) {
+                    tbody.append(`
+                        <tr style="background-color: #f2f0f0">
+                            <td><label class="checkboxs" style="display: none"><input type="checkbox"><span class="checkmarks"></span></label></td>
+                            <td><strong>Descrição do SKU:</strong> ${description}</td>
+                            <td><strong>Total esperado:</strong> ${totalExpected}</td>
+                            <td><strong>Total recebido:</strong> ${totalReceived}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    `);
+                    
+                    // Resetar totais
+                    totalExpected = 0;
+                    totalReceived = 0;
+                }
+
+                // Atualizar o SKU atual e somar as quantidades
+                currentSKU = sku;
+                description = row[12]; // DESCRIÇÃO DO SKU
+                totalExpected = row[9]; // TOTAL ESPERADO
+                totalReceived = row[10]; // TOTAL RECEBIDO
+                // Adicionar linha do item
+                tbody.append(`
+                    <tr>
+                        <td><label class="checkboxs"><input type="checkbox"><span class="checkmarks"></span></label></td>
+                        <td>${row[0]}</td>
+                        <td>${sku}</td>
+                        <td>${local}</td>
+                        <td>${lote}</td>
+                        <td>${quantidade}</td>
+                        <td>${status}</td>
+                        <td>${dataVencimento}</td>
+                        <td class="text-center">
+                            <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="javascript:void(0);" class="dropdown-item">
+                                    <i class="si si-user me-2" style="font-size: 20px;"></i>Adicionar comentário
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            // Adicionar a última linha de totais
+            if (currentSKU) {
+                tbody.append(`
+                    <tr style="background-color: #f2f0f0">
+                        <td><label class="checkboxs" style="display: none"><input type="checkbox"><span class="checkmarks"></span></label></td>
+                        <td><strong>Descrição do SKU:</strong> ${description}</td>
+                        <td><strong>Total esperado:</strong> ${totalExpected}</td>
+                        <td><strong>Total recebido:</strong> ${totalReceived}</td>
+                        <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                    </tr>
+                `);
+            }
+
+            inicializarDataTable(); // Inicializa o DataTable após preencher os dados
+        },
+        error: function(xhr, status, error) {
+            console.error("Erro ao carregar os dados: " + error);
+        },
+        complete: function() {
+            $('#global-loader').hide();
+        }
+    });
+}
+
+
+    // Carregar os dados na tabela ao iniciar a página
+    loadData();
+});
+</script>
