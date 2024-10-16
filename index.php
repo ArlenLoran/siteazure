@@ -709,11 +709,11 @@ $(document).ready(function() {
             } else if (data.length > 0) {
                 // Preenche os inputs com os dados retornados
                 const item = data[0];
-                document.getElementById('trlr_num').value = item.TRLR_NUM || 'N/A';
+                document.getElementById('trlr_num').value = item.trlr_num || 'N/A';
                 document.getElementById('invoice').value = item.invnum || 'N/A';
                 document.getElementById('trlr_broker').value = item.trlr_broker || 'N/A';
                 document.getElementById('driver_nam').value = item.driver_nam || 'N/A';
-                document.getElementById('driver_lic_num').value = item.DRIVER_LIC_NUM || 'N/A';
+                document.getElementById('driver_lic_num').value = (item.DRIVER_LIC_NUM === 'NA' ? 'N/A' : item.DRIVER_LIC_NUM) || 'N/A';
                 document.getElementById('trlr_typ').value = item.trlr_typ || 'N/A';
                 document.getElementById('nottxt').value = item.NOTTXT || 'N/A';
                 document.getElementById('yard_loc').value = item.YARD_LOC || 'N/A';
