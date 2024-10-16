@@ -12,7 +12,7 @@ function escape_html($string) {
 <head>
     <?php
         include 'Configuracoes/headgerais.php';
-        renderHead("Usuários");
+        renderHead("Check-list de veículo");
     ?>
 
     <style>
@@ -61,6 +61,10 @@ function escape_html($string) {
         .icon-btn:hover {
             background-color: #f0f0f0;
         }
+        .dataTables_filter {
+    display: none;
+}
+
     </style>
 </head>
 <body>
@@ -86,8 +90,8 @@ function escape_html($string) {
         <div class="content">
             <div class="page-header">
                 <div class="page-title">
-                    <h4>Cadastrar</h4>
-                    <h6>Cadastre um novo EPI</h6>
+                    <h4>Auditoria</h4>
+                    <h6>Relatório de auditoria de inbound</h6>
                 </div>
             </div>
 
@@ -275,6 +279,13 @@ function escape_html($string) {
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-12">
+                    <div class="form-group d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+
             </div>
         </form>
     </div>
@@ -387,7 +398,7 @@ function escape_html($string) {
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>1. O veículo está calçado corretamente?</label>
+                        <label>4. O assoalho apresenta condições de carregamento?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="q1" value="sim" id="q1-sim">
                             <label class="form-check-label" for="q1-sim">Sim</label>
@@ -401,7 +412,7 @@ function escape_html($string) {
 
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>2. O motorista entregou a chave do veículo?</label>
+                        <label>5. O veículo está limpo?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="q2" value="sim" id="q2-sim">
                             <label class="form-check-label" for="q2-sim">Sim</label>
@@ -415,7 +426,7 @@ function escape_html($string) {
 
                 <div class="col-lg-12 col-sm-12 col-12 question-wrapper">
                     <div class="form-group">
-                        <label>3. O veículo está com mal cheiro?</label>
+                        <label>6. Há furos na lateral e/ou teto?</label>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="q3" value="sim" id="q3-sim">
                             <label class="form-check-label" for="q3-sim">Sim</label>
@@ -474,58 +485,27 @@ function escape_html($string) {
     }
 </style>
         
-<?php
-    include 'Configuracoes/scriptsgerais.php';
-?>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
 
-<script>
-function pesquisar() {
-    event.preventDefault(); // Impede o envio do formulário
+<script src="assets/js/feather.min.js"></script>
 
-    const invnum = document.getElementById('invnum').value;
+<script src="assets/js/jquery.slimscroll.min.js"></script>
 
-    // Mostra o overlay
-    document.getElementById('overlay').style.display = 'block';
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/dataTables.bootstrap4.min.js"></script>
 
-    fetch('consultar.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'invnum=' + encodeURIComponent(invnum)
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Esconde o overlay ao receber a resposta
-        document.getElementById('overlay').style.display = 'none';
+<script src="assets/js/bootstrap.bundle.min.js"></script>
 
-        if (data.error) {
-            alert(data.error);
-        } else if (data.length > 0) {
-            // Preenche os inputs com os dados retornados
-            const item = data[0];
-            document.getElementById('trlr_num').value = item.trlr_num || 'N/A';
-            document.getElementById('invoice').value = item.invnum || 'N/A';
-            document.getElementById('trlr_broker').value = item.trlr_broker || 'N/A';
-            document.getElementById('driver_nam').value = item.driver_nam || 'N/A';
-            document.getElementById('driver_lic_num').value = item.DRIVER_LIC_NUM || 'N/A';
-            document.getElementById('trlr_typ').value = item.trlr_typ || 'N/A';
-            document.getElementById('nottxt').value = item.NOTTXT || 'N/A';
-            document.getElementById('yard_loc').value = item.YARD_LOC || 'N/A';
-            document.getElementById('tractor_num').value = item.TRACTOR_NUM || 'N/A';
-            document.getElementById('trlr_seal1').value = (item.TRLR_SEAL1 === 'NA' ? 'N/A' : item.TRLR_SEAL1) || 'N/A';
-            document.getElementById('trlr_seal2').value = (item.TRLR_SEAL2 === 'NA' ? 'N/A' : item.TRLR_SEAL2) || 'N/A';
-            document.getElementById('trlr_seal3').value = (item.TRLR_SEAL3 === 'NA' ? 'N/A' : item.TRLR_SEAL3) || 'N/A';
-        }
-    })
-    .catch(error => {
-        // Esconde o overlay em caso de erro
-        document.getElementById('overlay').style.display = 'none';
-        console.error('Erro:', error);
-    });
-}
+<script src="assets/plugins/select2/js/select2.min.js"></script>
 
-</script>
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+
+<script src="assets/js/script.js"></script>
+
 
 <script>
 $(document).ready(function() {
@@ -558,14 +538,17 @@ $(document).ready(function() {
     }
 
     // Função para carregar dados na tabela
-    function loadData() {
-    $('#global-loader').show();
+    function loadData(invnum) {
 
-    $.ajax({
-        url: 'teste.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
+        fetch('teste.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'invnum=' + encodeURIComponent(invnum)
+        })
+        .then(response => response.json())
+        .then(data => {
             var tbody = $('#userTable tbody');
             tbody.empty();
 
@@ -573,6 +556,18 @@ $(document).ready(function() {
             let totalExpected = 0;
             let totalReceived = 0;
             let description = '';
+
+            // Verifica se a resposta contém erro
+            if (data.error) {
+                Swal.fire("Erro", data.error, "error");
+                return;
+            }
+
+            // Verifica se há dados
+            if (data.length === 0) {
+                Swal.fire("Alerta", "Não há relatório para esta busca.", "warning");
+                return;
+            }
 
             $.each(data, function(index, row) {
                 if (index === 0) return; // Ignora a primeira linha (cabeçalho)
@@ -644,27 +639,102 @@ $(document).ready(function() {
                         <td><strong>Total esperado:</strong> ${totalExpected}</td>
                         <td><strong>Total recebido:</strong> ${totalReceived}</td>
                         <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 `);
             }
 
             inicializarDataTable(); // Inicializa o DataTable após preencher os dados
-        },
-        error: function(xhr, status, error) {
+        })
+        .catch(error => {
             console.error("Erro ao carregar os dados: " + error);
-        },
-        complete: function() {
+        })
+        .finally(() => {
             $('#global-loader').hide();
+        });
+    }
+
+    // Função de busca
+    window.pesquisar = function() {
+        event.preventDefault(); // Impede o envio do formulário
+
+        // Limpa os inputs antes de realizar a consulta
+        const inputs = [
+            'trlr_num', 
+            'invoice', 
+            'trlr_broker', 
+            'driver_nam', 
+            'driver_lic_num', 
+            'trlr_typ', 
+            'nottxt', 
+            'yard_loc', 
+            'tractor_num', 
+            'trlr_seal1', 
+            'trlr_seal2', 
+            'trlr_seal3'
+        ];
+
+        inputs.forEach(id => {
+            document.getElementById(id).value = ''; // Limpa cada input
+        });
+
+        // Limpa a tabela
+        $('#userTable tbody').empty(); // Limpa o conteúdo da tabela
+        if ($.fn.DataTable.isDataTable('#userTable')) {
+            $('#userTable').DataTable().clear().destroy();
         }
-    });
-}
 
+        const invnum = document.getElementById('invnum').value; // invoice é o invnum
 
-    // Carregar os dados na tabela ao iniciar a página
-    loadData();
+        // Mostra o overlay
+        $('#global-loader').show();
+
+        fetch('consultar.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'invnum=' + encodeURIComponent(invnum)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Esconde o overlay ao receber a resposta
+            $('#global-loader').hide();
+
+            if (data.error) {
+                Swal.fire("Erro", data.error, "error");
+            } else if (data.length > 0) {
+                // Preenche os inputs com os dados retornados
+                const item = data[0];
+                document.getElementById('trlr_num').value = item.TRLR_NUM || 'N/A';
+                document.getElementById('invoice').value = item.invnum || 'N/A';
+                document.getElementById('trlr_broker').value = item.trlr_broker || 'N/A';
+                document.getElementById('driver_nam').value = item.driver_nam || 'N/A';
+                document.getElementById('driver_lic_num').value = item.DRIVER_LIC_NUM || 'N/A';
+                document.getElementById('trlr_typ').value = item.trlr_typ || 'N/A';
+                document.getElementById('nottxt').value = item.NOTTXT || 'N/A';
+                document.getElementById('yard_loc').value = item.YARD_LOC || 'N/A';
+                document.getElementById('tractor_num').value = item.TRACTOR_NUM || 'N/A';
+                document.getElementById('trlr_seal1').value = (item.TRLR_SEAL1 === 'NA' ? 'N/A' : item.TRLR_SEAL1) || 'N/A';
+                document.getElementById('trlr_seal2').value = (item.TRLR_SEAL2 === 'NA' ? 'N/A' : item.TRLR_SEAL2) || 'N/A';
+                document.getElementById('trlr_seal3').value = (item.TRLR_SEAL3 === 'NA' ? 'N/A' : item.TRLR_SEAL3) || 'N/A';
+
+                loadData(invnum)
+
+            } else {
+                // Mostra um alerta caso não haja resultados
+                Swal.fire("Alerta", "Não há relatório para esta busca.", "warning");
+            }
+        })
+        .catch(error => {
+            // Esconde o overlay em caso de erro
+            document.getElementById('overlay').style.display = 'none';
+            console.error('Erro:', error);
+            Swal.fire("Erro", "Ocorreu um erro ao consultar os dados.", "error");
+        });
+    };
 });
 </script>
